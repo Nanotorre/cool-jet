@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="myCanvas" style="background: black"></canvas>
+  <script>
+    const myCanvasDOMEl = document.querySelector("#myCanvas");
+      const ctx = myCanvasDOMEl.getContext("2d");
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const w2 = w / 2;
+      const h2 = h / 2;
+      const PI = Math.PI;
+      const PI_DOUBLE = Math.PI * 2;
+      const PI_HALF = Math.PI / 2;
+
+      function randomFloat(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+      let shuffle = array => array.sort(() => Math.random() - 0.5);
+
+      function setCanvasDimensions() {
+        // x axis
+        myCanvasDOMEl.setAttribute("width", `${w}px`);
+        // y axis
+        myCanvasDOMEl.setAttribute("height", `${h}px`);
+      }
+      setCanvasDimensions();
+
+      window.onresize = setCanvasDimensions;
+      let img = new Image();
+      img.src = "./characters/boy/boy.png";
+
+    // número de imágenes diferentes
+    //   let frames = 6;
+    //   let frameIndex = 0;
+
+    // // medidas de la imagen a representar en el canvas
+    //   let wboy = 50;
+    //   let hboy = 75;
+      // 
+      // ctx.drawImage(img,w2,h2);
+
+  //   function draw() {
+  //   // Documentación drawImage:
+  //   // https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage
+    
+  // }
+  // draw();
+  
+  // let framesCounter= 0;
+  // setInterval(() => {
+  //   framesCounter++;
+  //   ctx.clearRect(0, 0, w, h);
+  //   draw(framesCounter);
+
+
+// 61x45
+let index= 14;
+  // }, 1000/60);
+  setInterval(() => {
+    ctx.clearRect(0, 0, w, h); 
+    ctx.drawImage(img,index,0,43,60,w2,h2,43*2,61*2);
+    if (index>380) {
+      index=14;
+    }
+    else {
+      index+=74.1;
+    }
+    
+ 
+    // ctx.drawImage(img,w2,h2);
+  }, 1000/60);
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </script>
+
+</body>
+</html>
