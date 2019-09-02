@@ -13,8 +13,7 @@ let Game = {
   keys: {
     LEFT_KEY: 37,
     RIGHT_KEY: 39, 
-    UP_KEY: 38,
-    DOWN_KEY:40, 
+    UP_KEY: 38, 
     SPACE: 32
   },
   time: {
@@ -55,18 +54,18 @@ let Game = {
   start: function() {
     
     this.reset();
-    setInterval(() => {
-      console.log(this.time.deltaSeconds)
-   }, 1000);
+  //   setInterval(() => {
+  //     console.log(this.time.deltaSeconds)
+  //  }, 1000);
 
+    
     this.controlKeys();
-
 
     //animation loop
     this.play = now => {
+      
       this.time.elapsed = now - this.time.start;
       this.time.deltaSeconds= Math.floor(this.time.delta/60);
-      
       
       
       //ACTION!!!
@@ -77,6 +76,10 @@ let Game = {
       }
       this.moveAll();
       this.drawAll();
+      if (this.player.y >  Game.h)  {
+        console.log()
+        this.gameOver(Game.player.y);
+      }
 
       requestAnimationFrame(this.play);
     };
@@ -121,25 +124,22 @@ let Game = {
   clear: function() {
     this.ctx.clearRect(0, 0, this.w, this.h);
   },
-  controlKeys() {
+  controlKeys: function () {
     document.onkeydown = function(e) {
     
       if(e.keyCode == Game.keys.LEFT_KEY) Game.player.LEFT = true;
-      if(e.keyCode == Game.keys.RIGHT_KEY) {
-        Game.player.RIGHT = true;
-        // Game.player.RIGHT = false;
-      }
+      if(e.keyCode == Game.keys.RIGHT_KEY) Game.player.RIGHT = true;
       if(e.keyCode == Game.keys.UP_KEY) Game.player.UP = true;
-      if(e.keyCode == Game.keys.DOWN_KEY) Game.player.DOWN = true;
+      if(e.keyCode == Game.keys.SPACE) {Game.player.SPACE = true;
+        setTimeout(() => {
+          Game.player.shoot()
+          Game.player.SPACE = false;
+        }, 500);}
      };
      document.onkeyup = function(e) {
        if(e.keyCode == Game.keys.LEFT_KEY) Game.player.LEFT = false;
-       if(e.keyCode == Game.keys.RIGHT_KEY) {
-        Game.player.RIGHT = false;
-        // Game.player.RIGHT_DECELERATE= true;
-       }
+       if(e.keyCode == Game.keys.RIGHT_KEY) Game.player.RIGHT = false;
        if(e.keyCode == Game.keys.UP_KEY) Game.player.UP = false;
-       if(e.keyCode == Game.keys.DOWN_KEY) Game.player.DOWN = false;
      };
   },
   moveAll: function() {
@@ -154,10 +154,7 @@ let Game = {
     this.background.draw();
     this.player.draw(this.framesCounter);
     this.background.drawFirstCloud();
-    // this.obstacles.forEach(function(obstacle) {
-      // obstacle.draw1();
-    // });
-    // this.drawScore();
+ 
   },
   reset: function() {
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
@@ -167,5 +164,21 @@ let Game = {
     this.obstacles = [];
     this.score = 0;
   },
+  stop: function() {
+    window.cancelAnimationFrame(this.play);
+    this.play = undefined;
+
+  },
+  //fin del juego
+  gameOver: function() {
+    this.stop();
+
+    // if (confirm("GAME OVER. Play again?")) {
+    //   this.reset();
+    //   this.start();
+    // }
+  }
 };
-  
+
+  //no puedo parar la animacion 
+  //no puedo poner limites al muñeco

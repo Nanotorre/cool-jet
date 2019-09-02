@@ -39,7 +39,10 @@
 
       window.onresize = setCanvasDimensions;
       let img = new Image();
-      img.src = "./characters/boy/boy.png";
+      img.src = "./characters/boy/boy_shoots.png";
+      let img2 = new Image();
+      img2.src = "./characters/boy/bullets.png";
+
 
     // número de imágenes diferentes
     //   let frames = 6;
@@ -67,16 +70,45 @@
 
 // 61x45
 let index= 14;
+let frameIndex = 5;
   // }, 1000/60);
   setInterval(() => {
     ctx.clearRect(0, 0, w, h); 
-    ctx.drawImage(img,index,0,43,60,w2,h2,43*2,61*2);
+    ctx.drawImage(img,index,0,55,60,w2,h2,55*2,61*2);
     if (index>380) {
       index=14;
     }
     else {
       index+=74.1;
     }
+    let frames = 2;
+     // ctx.drawImage(img,index,0,43,60,w2,h2,43*2,61*2);
+    // if (index>380) {
+    //   index=14;
+    // }
+    // else {
+    //   index+=74.1;
+    // }
+    
+ 
+    //   ctx.drawImage(img2,frameIndex,0,33,19,300,300,33*2,20*2);
+    // if(frameIndex==80) {
+    //   frameIndex=6;
+    // }
+    // else {
+    //   frameIndex=80;
+    // }
+    
+    // if(frameIndex==80) {
+    //   ctx.drawImage(img2,frameIndex,0,33,19,300,300,33*2,20*2);
+    //   frameIndex==5;
+    // }
+    
+    
+    
+
+  
+   
     
  
     // ctx.drawImage(img,w2,h2);
