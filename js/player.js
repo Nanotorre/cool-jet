@@ -6,78 +6,67 @@ class Player {
     this.keys = keys;
     this.x = this.canvasW * 0.08;
     this.y = this.canvasH * 0.08;
-    // guardar posición original (suelo)
-    // this.y0 = this.canvasH * 0.8;
-    // this.y = this.y0;
+
 
     this.img = new Image();
     this.img.src = "./characters/boy/boy.png";
 
-    // número de imágenes diferentes
+
     this.img.frames = 6;
     this.img.frameIndex = 0;
 
-    // medidas de la imagen a representar en el canvas
-    this.w = 50;
-    this.h = 75;
+    // boy measures
+    this.w = 43;
+    this.h = 60;
 
-    this.vy = 1;
+   
 
     this.bullets = [];
     this.index= 14;
     this.speed= 9;
     this.LEFT= false; 
     this.RIGHT= false;
+
     this.UP= false; 
     this.DOWN= false;
-    // this.setListeners();
+
+    this.time= {
+      start: undefined,
+      delta: undefined,
+      deltaSeconds: undefined
     }
-
-
-
-
-    
+    }
+    easeOut (speed) {
+      Math.pow(--speed, 5) + 1;
+    }
+        
     draw() {
-      this.ctx.drawImage(this.img,this.index,0,43,60,this.x,this.y,43*2,60*2);
+      this.ctx.drawImage(this.img,this.index,0,43,60,this.x,this.y,this.w*1.5,this.h*1.5);
         if (this.index>380) {
           this.index=14;
         }
         else {
           this.index+=74.1;
         }
-        
+
       }
 
-    
-    // moveLeft() {
-    //     this.x -=5;
-    //   }
-
-    // moveRight() {
-    //     this.x +=5;
-    //   }
-
-    // moveUp() {
-    //     this.y -= 5;
-    //   }
-    // moveDown() {
-    //     this.y += 5;
-    //   }
     move() {
 	
       if(this.LEFT) { 
         this.x -= this.speed;
+        
       }
       if(this.RIGHT) {
-        this.x += this.speed;	
+        this.x += this.speed;
       }
       if(this.UP) { 
         this.y -= this.speed;
+ 
       }
       if(this.DOWN) {
         this.y += this.speed;	
       }
-      
     }
-      
-};
+
+}
