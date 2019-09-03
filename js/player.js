@@ -82,6 +82,13 @@ class Player {
           this.index+=74.1;
         }
     }
+    this.bullets = this.bullets.filter(bullet => {
+      return bullet.x < this.canvasW;
+    });
+    this.bullets.forEach(function(bullet) {
+      bullet.draw();
+      bullet.move();
+    });
     
   }
 
@@ -122,7 +129,7 @@ class Player {
   shoot() {
     let bullet = new Bullet(
       this.x + this.w,
-      this.y + this.h / 2,
+      this.y + (this.h / 2-5),
       this.h,
       this.w,
       this.ctx
@@ -137,10 +144,11 @@ class Player {
       if(e.keyCode == this.keys.RIGHT_KEY) this.RIGHT = true;
       if(e.keyCode == this.keys.UP_KEY) this.UP = true;
       if(e.keyCode == this.keys.SPACE) { this.SPACE = true;
+        this.shoot();
         setTimeout(() => {
-          this.shoot()
+          
           this.SPACE = false;
-        }, 500);}
+        }, 400);}
      }.bind(this);
      document.onkeyup = function(e) {
        if(e.keyCode == this.keys.LEFT_KEY) this.LEFT = false;

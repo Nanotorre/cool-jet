@@ -19,7 +19,7 @@ class Bullet {
   }
 
   draw() {
-    this.ctx.drawImage(this.bullets,this.frameIndex,0,33,19,300,300,33*2,20*2);
+    this.ctx.drawImage(this.bullets,this.frameIndex,0,33,19,this.x,this.y,33*1.5,20*1.5);
     if(Game.time.deltaSeconds%2==0 && this.frameIndex==80) {
       this.frameIndex=6;
     }

@@ -2,8 +2,10 @@ class BirdHP {
   constructor(x, y, w, h, ctx) {
     this.x = x;
     this.y = y;
-    this.w = w;
+    this.w = w;//estas dos se pueden borrar
     this.h = h;
+    this.birdW = 36;
+    this.birdH = 32;
     this.ctx = ctx;
     this.birdHP = new Image();
     this.birdHP.src = "./characters/enemies/bird-hp.png";
@@ -15,7 +17,7 @@ class BirdHP {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
   draw () {
-    this.ctx.drawImage(this.birdHP,this.index,0,36,32,this.x,this.y,36,32);
+    this.ctx.drawImage(this.birdHP,this.index,0,this.birdW,this.birdH,this.x,this.y,this.birdW,this.birdH);
     if (this.index>380) {
       this.index=6;
     }

@@ -10,11 +10,13 @@ let Game = {
   PI_HALF: Math.PI / 2,
   fps: 60,
   scoreBoard: undefined,
+  birdHPfreq: [120, 360, 480],
  
   time: {
     start: undefined,
     delta: undefined,
-    deltaSeconds: undefined
+    elapsedS: undefined,
+    counter: undefined
   },
   
   randomFloat: function (min, max) {
@@ -42,38 +44,37 @@ let Game = {
     this.setCanvasDimensions();
     // ScoreBoard.init(this.ctx);
     
-
     this.start();
   },
 
   start: function() {
     
     this.reset();
-  //   setInterval(() => {
-  //     console.log(this.time.deltaSeconds)
-  //  }, 1000);
+    this.time.start=Math.floor(performance.now()/1000);
+    this.time.counter=0;
 
-    
-    // this.controlKeys();
-
-    //animation loop
     this.play = now => {
+      this.time.counter++;
+      this.time.elapsed = Math.floor(now);
+      this.time.elapsedS= now;
+      if (this.time.counter > 1000) this.time.counter = 0;
       
-      this.time.elapsed = now - this.time.start;
-      this.time.deltaSeconds= Math.floor(this.time.delta/60);
-      console.log(this.time.elapsed)
+      //bird HP
+      if(this.birdHPArr.length<= 3 && this.time.counter%this.birdHPfreq[0]==0) this.generateBirdHP();
+      else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPfreq[1]==0) this.generateBirdHP();
+      else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPfreq[2]==0) this.generateBirdHP();
+
       
       //ACTION!!!
       this.clear();
-      this.time.delta++;
-      if (this.framesCounter > 1000) {
-        this.time.delta = 0;
-      }
-      // if (this.framesCounter % 50 === 0) {
-        
-      // }
       this.moveAll();
       this.drawAll();
+      this.clearObstacles();
+      if (this.isCollision()) {
+        this.gameOver();
+      }
+
+
       if (this.player.y >  Game.h)  {
         console.log()
         this.gameOver(Game.player.y);
@@ -81,83 +82,48 @@ let Game = {
 
       requestAnimationFrame(this.play);
     };
-    
     requestAnimationFrame(this.play);
-
-
-
-
-
-
-
-
-    // this.interval = setInterval(() => {
-    //   this.clear();
-
-    //   this.framesCounter++;
-
-    //   // controlamos que frameCounter no sea superior a 1000
-    //   if (this.framesCounter > 1000) {
-    //     this.framesCounter = 0;
-    //   }
-
-    //   // controlamos la velocidad de generación de obstáculos
-    //   // if (this.framesCounter % 50 === 0) {
-    //   //   this.generateObstacle();
-    //   // }
-
-    //   // this.score += 0.01;
-     
-    //   this.moveAll();
-    //   this.drawAll();
-
-    //   // eliminamos obstáculos fuera del canvas
-    //   // this.clearObstacles();
-
-    //   // if (this.isCollision()) {
-    //   //   this.gameOver();
-    //   // }
-    // }, 1000/30);
   },
+
   generateBirdHP: function() {
     this.birdHPArr.push(
-      new BirdHP(500, 500, this.w/2, this.h/2, this.ctx)
+      new BirdHP(this.w, this.randomInt(this.h2+200, this.h2-200), this.w/2, this.h/2, this.ctx)
     );
   },
+
   clear: function() {
     this.ctx.clearRect(0, 0, this.w, this.h);
   },
+
   moveAll: function() {
     this.background.move();
     this.player.move();
-    // this.obstacles.forEach(function(obstacle) {
-      // obstacle.move();
-      // })
-    this.birdHPArr[0].move();
+    this.birdHPArr.forEach(bird => {bird.move()});
 
   },
+
   drawAll: function() {
     this.background.draw();
     this.player.draw(this.framesCounter);
-    this.birdHPArr[0].draw();
+    this.birdHPArr.forEach(bird => {bird.draw()});
     this.background.drawFirstCloud();
 
   },
+
   reset: function() {
     this.birdHPArr = [];
-    this.generateBirdHP()
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
     this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.keys);
     // this.scoreBoard = ScoreBoard;
-    this.time.delta = 0;
     this.score = 0;
   },
+
   stop: function() {
     window.cancelAnimationFrame(this.play);
     this.play = undefined;
 
   },
-  //fin del juego
+
   gameOver: function() {
     this.stop();
 
@@ -165,8 +131,27 @@ let Game = {
     //   this.reset();
     //   this.start();
     // }
-  }
+  },
+
+  clearObstacles: function() {
+    this.birdHPArr = this.birdHPArr.filter(bird => {if(bird.x>= - bird.birdW) return true});
+  },
+
+  isCollision: function() {
+    // colisiones genéricas
+    // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
+    // esto chequea que el personaje no estén en colisión con cualquier obstáculo
+    return this.birdHPArr.some(bird => {
+      return (
+        this.player.x + this.player.w >= bird.x &&
+        this.player.x < bird.x + bird.birdW &&
+        this.player.y + this.player.h >= bird.y &&
+        this.player.y <= (bird.y + bird.birdH)
+        )
+    });
+  },
 };
+
 
   //no puedo parar la animacion 
   //no puedo poner limites al muñeco
