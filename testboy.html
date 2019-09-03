@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 <body>
-  <canvas id="myCanvas" style="background: black"></canvas>
+  <canvas id="myCanvas" style="background: rgb(255, 79, 79)"></canvas>
   <script>
     const myCanvasDOMEl = document.querySelector("#myCanvas");
       const ctx = myCanvasDOMEl.getContext("2d");
@@ -42,6 +42,8 @@
       img.src = "./characters/boy/boy_shoots.png";
       let img2 = new Image();
       img2.src = "./characters/boy/bullets.png";
+      let birdHP = new Image();
+      birdHP.src = "./characters/enemies/bird-hp.png";
 
 
     // número de imágenes diferentes
@@ -67,21 +69,38 @@
   //   ctx.clearRect(0, 0, w, h);
   //   draw(framesCounter);
 
-
+let x=33, y=32;
 // 61x45
-let index= 14;
+let index= 5;
 let frameIndex = 5;
   // }, 1000/60);
   setInterval(() => {
+    // ctx.clearRect(0, 0, w, h); 
+    // ctx.drawImage(img,index,0,55,60,w2,h2,55*2,61*2);
+    // if (index>380) {
+    //   index=14;
+    // }
+    // else {
+    //   index+=74.1;
+    // }
     ctx.clearRect(0, 0, w, h); 
-    ctx.drawImage(img,index,0,55,60,w2,h2,55*2,61*2);
+    ctx.drawImage(birdHP,index,0,36,32,w2,h2,36*2,32*2);
     if (index>380) {
-      index=14;
+      index=6;
     }
     else {
-      index+=74.1;
+      index+=53.8;
     }
     let frames = 2;
+
+
+    function easeInOutQuad (t, b, c, d) {
+      if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+      return -c / 2 * ((--t) * (t - 2) - 1) + b;
+    }
+    this.x = easeInOutQuad (t, this.x, 0, 4);
+    t+=1;
+    // this.x -=2;
      // ctx.drawImage(img,index,0,43,60,w2,h2,43*2,61*2);
     // if (index>380) {
     //   index=14;

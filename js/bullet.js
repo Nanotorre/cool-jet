@@ -1,5 +1,5 @@
 class Bullet {
-  constructor(x, y, h, w, ctx, ) {
+  constructor(x, y, h, w, ctx) {
     this.x = x;
     this.y = y;
     this.w = w;

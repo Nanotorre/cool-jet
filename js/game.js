@@ -10,12 +10,7 @@ let Game = {
   PI_HALF: Math.PI / 2,
   fps: 60,
   scoreBoard: undefined,
-  keys: {
-    LEFT_KEY: 37,
-    RIGHT_KEY: 39, 
-    UP_KEY: 38, 
-    SPACE: 32
-  },
+ 
   time: {
     start: undefined,
     delta: undefined,
@@ -59,14 +54,14 @@ let Game = {
   //  }, 1000);
 
     
-    this.controlKeys();
+    // this.controlKeys();
 
     //animation loop
     this.play = now => {
       
       this.time.elapsed = now - this.time.start;
       this.time.deltaSeconds= Math.floor(this.time.delta/60);
-      
+      console.log(this.time.elapsed)
       
       //ACTION!!!
       this.clear();
@@ -74,6 +69,9 @@ let Game = {
       if (this.framesCounter > 1000) {
         this.time.delta = 0;
       }
+      // if (this.framesCounter % 50 === 0) {
+        
+      // }
       this.moveAll();
       this.drawAll();
       if (this.player.y >  Game.h)  {
@@ -121,26 +119,13 @@ let Game = {
     //   // }
     // }, 1000/30);
   },
+  generateBirdHP: function() {
+    this.birdHPArr.push(
+      new BirdHP(500, 500, this.w/2, this.h/2, this.ctx)
+    );
+  },
   clear: function() {
     this.ctx.clearRect(0, 0, this.w, this.h);
-  },
-  controlKeys: function () {
-    document.onkeydown = function(e) {
-    
-      if(e.keyCode == Game.keys.LEFT_KEY) Game.player.LEFT = true;
-      if(e.keyCode == Game.keys.RIGHT_KEY) Game.player.RIGHT = true;
-      if(e.keyCode == Game.keys.UP_KEY) Game.player.UP = true;
-      if(e.keyCode == Game.keys.SPACE) {Game.player.SPACE = true;
-        setTimeout(() => {
-          Game.player.shoot()
-          Game.player.SPACE = false;
-        }, 500);}
-     };
-     document.onkeyup = function(e) {
-       if(e.keyCode == Game.keys.LEFT_KEY) Game.player.LEFT = false;
-       if(e.keyCode == Game.keys.RIGHT_KEY) Game.player.RIGHT = false;
-       if(e.keyCode == Game.keys.UP_KEY) Game.player.UP = false;
-     };
   },
   moveAll: function() {
     this.background.move();
@@ -148,20 +133,23 @@ let Game = {
     // this.obstacles.forEach(function(obstacle) {
       // obstacle.move();
       // })
+    this.birdHPArr[0].move();
 
   },
   drawAll: function() {
     this.background.draw();
     this.player.draw(this.framesCounter);
+    this.birdHPArr[0].draw();
     this.background.drawFirstCloud();
- 
+
   },
   reset: function() {
+    this.birdHPArr = [];
+    this.generateBirdHP()
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
     this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.keys);
     // this.scoreBoard = ScoreBoard;
     this.time.delta = 0;
-    this.obstacles = [];
     this.score = 0;
   },
   stop: function() {
