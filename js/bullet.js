@@ -16,6 +16,7 @@ class Bullet {
     // número de imágenes diferentes
     this.frames = 2;
     this.frameIndex = 5;
+    this.active=true
   }
 
   draw() {

@@ -11,7 +11,7 @@ class BirdHP {
     this.birdHP.src = "./characters/enemies/bird-hp.png";
     this.index=6;
     this.t = 0;
-
+    this.active=true
   }
   randomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);

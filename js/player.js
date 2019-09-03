@@ -12,7 +12,6 @@ class Player {
       UP_KEY: 38, 
       SPACE: 32
     },
-
     //sprites
     this.boy_off = new Image();
     this.boy_off.src = "./characters/boy/boy_off.png";
@@ -20,6 +19,8 @@ class Player {
     this.boy_on.src = "./characters/boy/boy.png";
     this.boy_shoots = new Image();
     this.boy_shoots.src = "./characters/boy/boy_shoots.png";
+    this.boy_dies = new Image();
+    this.boy_dies.src = "../characters/boy/boy_dies.png";
 
     // boy measures
     this.w = 43;
@@ -82,6 +83,7 @@ class Player {
           this.index+=74.1;
         }
     }
+
     this.bullets = this.bullets.filter(bullet => {
       return bullet.x < this.canvasW;
     });
@@ -91,6 +93,7 @@ class Player {
     });
     
   }
+  die()
 
   move() {
     this.gravitySpeed += this.gravity;

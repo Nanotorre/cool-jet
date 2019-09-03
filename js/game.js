@@ -70,13 +70,12 @@ let Game = {
       this.moveAll();
       this.drawAll();
       this.clearObstacles();
+     
+      this.killBirds()
       if (this.isCollision()) {
         this.gameOver();
       }
-
-
       if (this.player.y >  Game.h)  {
-        console.log()
         this.gameOver(Game.player.y);
       }
 
@@ -150,6 +149,37 @@ let Game = {
         )
     });
   },
+  killBirds: function () {
+    if(this.player.bullets.length>0 && this.birdHPArr.length>0) {
+      this.player.bullets.forEach(bullet=> {
+          this.birdHPArr.forEach(bird=> {
+            if(bullet.x+ 25 >= bird.x && bullet.x < bird.x + bird.birdW  && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH){
+              bird.active=false; bullet.active=false;
+            }
+          
+              // 
+              
+            
+              // + 25 >= bird.x &&
+              // bullet.x < bird.x + bird.birdW &&
+              // bullet.y + 12 >= bird.y &&
+              // bullet.y <= (bird.y + bird.birdH))
+            
+          
+          })
+        
+   
+       
+      })
+      
+    }
+    this.birdHPArr= this.birdHPArr.filter(bird=> bird.active === true)
+    this.player.bullets = this.player.bullets.filter(bullet=> bullet.active===true)
+    
+    
+
+  }
+
 };
 
 
