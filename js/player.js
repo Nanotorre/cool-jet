@@ -1,11 +1,11 @@
 class Player {
-  constructor(w, h, ctx, keys) {
+  constructor(w, h, ctx, elapsed) {
     this.canvasW= w;
     this.canvasH = h;
     this.ctx = ctx;
-    this.keys = keys;
-    this.x = this.canvasW * 0.2;
-    this.y = this.canvasH * 0.2;
+    this.x = 200;
+    this.y = 200;
+    this.active= true;
     this.keys= {
       LEFT_KEY: 37,
       RIGHT_KEY: 39, 
@@ -20,7 +20,7 @@ class Player {
     this.boy_shoots = new Image();
     this.boy_shoots.src = "./characters/boy/boy_shoots.png";
     this.boy_dies = new Image();
-    this.boy_dies.src = "../characters/boy/boy_dies.png";
+    this.boy_dies.src = "./characters/boy/boy_dies.png";
 
     // boy measures
     this.w = 43;
@@ -28,6 +28,7 @@ class Player {
 
     this.bullets = [];
     this.index= 14;
+    this.indexdie= 0;
     this.speed= 9;
     this.speedAcc= 0.001
     this.speedY= 0;
@@ -93,7 +94,16 @@ class Player {
     });
     
   }
-  die()
+  die (time) {
+   
+    this.ctx.drawImage(this.boy_dies,this.indexdie,0,50,60,this.x,this.y,50*1.5,this.h*1.5);
+    if (this.indexdie>380) {
+      this.indexdie=380;
+    }
+    else if (time%15==0){
+      this.indexdie+=73.4;
+    }
+  }
 
   move() {
     this.gravitySpeed += this.gravity;
@@ -135,7 +145,8 @@ class Player {
       this.y + (this.h / 2-5),
       this.h,
       this.w,
-      this.ctx
+      this.ctx,
+      this.elapsed
     );
   this.bullets.push(bullet);
   }

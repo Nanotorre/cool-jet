@@ -44,6 +44,8 @@
       img2.src = "./characters/boy/bullets.png";
       let birdHP = new Image();
       birdHP.src = "./characters/enemies/bird-hp.png";
+      let boy_dies = new Image();
+      boy_dies.src = "./characters/boy/boy_dies.png";
 
 
     // número de imágenes diferentes
@@ -84,14 +86,25 @@ let frameIndex = 5;
     //   index+=74.1;
     // }
     ctx.clearRect(0, 0, w, h); 
-    ctx.drawImage(birdHP,index,0,36,32,w2,h2,36*2,32*2);
-    if (index>380) {
-      index=6;
+    // ctx.drawImage(birdHP,index,0,36,32,w2,h2,36*2,32*2);
+    // if (index>380) {
+    //   index=6;
+    // }
+    // else {
+    //   index+=53.8;
+    // }
+    // let frames = 2;
+
+    ctx.drawImage(boy_dies,index,0,50,60,x,y,50*1.5,60*1.5);
+    if (index>350) {
+      index=0;
     }
     else {
-      index+=53.8;
+      index+=73.4;
     }
-    let frames = 2;
+
+
+    
 
 
     function easeInOutQuad (t, b, c, d) {
@@ -131,7 +144,7 @@ let frameIndex = 5;
     
  
     // ctx.drawImage(img,w2,h2);
-  }, 1000/60);
+  }, 500);
   
   
   

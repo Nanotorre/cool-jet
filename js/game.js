@@ -73,7 +73,11 @@ let Game = {
      
       this.killBirds()
       if (this.isCollision()) {
-        this.gameOver();
+        this.player.active=false;
+        setTimeout(() => {
+           this.gameOver();
+        }, 2000);
+       
       }
       if (this.player.y >  Game.h)  {
         this.gameOver(Game.player.y);
@@ -96,14 +100,21 @@ let Game = {
 
   moveAll: function() {
     this.background.move();
-    this.player.move();
+    if(this.player.active)this.player.move();
+    
     this.birdHPArr.forEach(bird => {bird.move()});
 
   },
 
   drawAll: function() {
     this.background.draw();
-    this.player.draw(this.framesCounter);
+    if(this.player.active) {
+      this.player.draw(this.time.elapsed);
+    }
+    else {
+      this.player.die(this.time.elapsed);
+    }
+    
     this.birdHPArr.forEach(bird => {bird.draw()});
     this.background.drawFirstCloud();
 
@@ -112,7 +123,7 @@ let Game = {
   reset: function() {
     this.birdHPArr = [];
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
-    this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.keys);
+    this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.time.elapsed);
     // this.scoreBoard = ScoreBoard;
     this.score = 0;
   },
@@ -175,7 +186,7 @@ let Game = {
     }
     this.birdHPArr= this.birdHPArr.filter(bird=> bird.active === true)
     this.player.bullets = this.player.bullets.filter(bullet=> bullet.active===true)
-    
+
     
 
   }
