@@ -137,8 +137,6 @@ let Game = {
     if(this.time.counter%this.blueDiamondFreq==0) this.upgrade= new BlueDiamond(this.w, this.randomInt(20, this.h-20), this.ctx);
   },
 
-  
-
   clear: function() {
     this.ctx.clearRect(0, 0, this.w, this.h);
   },
@@ -197,6 +195,7 @@ let Game = {
 
   clearObstacles: function() {
     this.birdHPArr = this.birdHPArr.filter(bird => {if(bird.x>= - bird.birdW) return true});
+    if(this.upgrade && this.upgrade.x+this.upgrade.w < 0) this.upgrade= null;
   },
 
   isCollision: function() {
@@ -209,6 +208,7 @@ let Game = {
         )
     });
   },
+
   killBirds: function () {
     if(this.player.bullets.length>0 && this.birdHPArr.length>0) {
       this.player.bullets.forEach(bullet=> {
@@ -228,6 +228,7 @@ let Game = {
     this.birdHPArr= this.birdHPArr.filter(bird=> bird.active === true);
     this.birdDied= this.birdDied.filter(died=> died.active === true);
   },
+
   drawScore: function() {
     this.scoreBoard.update(this.score);
   }
