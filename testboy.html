@@ -50,6 +50,8 @@
       birdCyclop.src = "./characters/enemies/bird-cyclop.png";
       let bird_smoke = new Image();
       bird_smoke.src = "./characters/enemies/bird-smoke.png";
+      let birdElvis = new Image();
+      birdElvis.src = "./characters/enemies/bird-elvis.png";
 
 
     // número de imágenes diferentes
@@ -77,7 +79,7 @@
 
 let x=33, y=32;
 // 61x45
-let index= 0;
+let index= 2;
 let frameIndex = 5;
   // }, 1000/60);
   setInterval(() => {
@@ -98,12 +100,21 @@ let frameIndex = 5;
     //   index+=53.8;
     // }
     // let frames = 2;
-    ctx.drawImage(birdCyclop,index,0,39,35,w2,h2,39*2,35*2);
-    if (index>370) {
-      index=6;
+    // ctx.drawImage(birdCyclop,index,0,39,35,w2,h2,39*2,35*2);
+    // if (index>370) {
+    //   index=6;
+    // }
+    // else {
+    //   index+=53;
+    // }
+    // let frames = 2;
+    
+    ctx.drawImage(birdElvis,index,0,43,35,w2,h2,43*2,35*2);
+    if (index>375) {
+      index=2;
     }
     else {
-      index+=53;
+      index+=53.8;
     }
     let frames = 2;
     
@@ -161,7 +172,7 @@ let frameIndex = 5;
     
  
     // ctx.drawImage(img,w2,h2);
-  }, 1000/60);
+  }, 1000/20);
   
   
   

@@ -51,7 +51,7 @@ class Player {
     Math.pow(--speed, 5) + 1;
   }
 
-  draw() {
+  draw(counter) {
 
     //sprite JET ON
     if (this.UP) {
@@ -76,12 +76,12 @@ class Player {
     //sprite SHOOT
     if (this.SPACE) {
       this.ctx.drawImage(this.boy_shoots, this.index, 0, 55, 60, this.x, this.y, 55 * 1.5, this.h * 1.5);
-      if (this.index > 380) {
-        this.index = 14;
-      }
-      else {
-        this.index += 74.1;
-      }
+      // if (this.index > 380) 
+      // this.index = 14;
+   
+      if(Game.time.counter%2==0) this.index += 74.1;
+      if(Game.time.counter%30==0) this.SPACE = false;
+
     }
 
     this.bullets = this.bullets.filter(bullet => {
@@ -93,13 +93,13 @@ class Player {
     });
 
   }
-  die(time) {
+  die(counter) {
 
     this.ctx.drawImage(this.boy_dies, this.indexdie, 0, 50, 60, this.x, this.y, 50 * 1.5, this.h * 1.5);
     if (this.indexdie > 380) {
       this.indexdie = 380;
     }
-    else if (time % 15 == 0) {
+    else if (counter % 15 == 0) {
       this.indexdie += 73.4;
     }
   }
@@ -113,10 +113,8 @@ class Player {
       if (e.keyCode == this.keys.SPACE) {
         this.SPACE = true;
         this.shoot();
-        setTimeout(() => {
-
-          this.SPACE = false;
-        }, 400);
+     
+    
       }
     }.bind(this);
     document.onkeyup = function (e) {
@@ -125,22 +123,27 @@ class Player {
       if (e.keyCode == this.keys.UP_KEY) this.UP = false;
     }.bind(this);
   }
+
   moveLeft () {
     if (this.x > 0) this.x -= this.speed; 
   }
+
   moveRight () {
     if (this.x+this.w*1.5 < Game.w) this.x += this.speed;
   }
+
   moveUp () {
     if (this.y >= 6) this.sense= -0.2;//this.y -= this.speed;
   }
+
   moveDown () {
     this.sense= 0.23;
   }
+
   move() {
    
     if(this.UP && this.y <= 6) {
-      this.y=this.y; 
+      this.y=6; 
       this.gravity= 0;
     }
     else {
@@ -174,7 +177,6 @@ class Player {
     );
     this.bullets.push(bullet);
   }
-
 
 }
 

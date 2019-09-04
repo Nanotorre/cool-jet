@@ -17,12 +17,12 @@ class BirdHP {
   randomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  draw () {
+  draw (counter) {
     this.ctx.drawImage(this.birdHP,this.index,0,this.birdW,this.birdH,this.x,this.y,this.birdW,this.birdH);
     if (this.index>380) {
       this.index=6;
     }
-    else {
+    if(counter%3==0) {
       this.index+=53.8;
     }
   }
@@ -39,12 +39,12 @@ class BirdHP {
     this.y = this.y + (Math.cos(this.t*(2*Math.PI))*this.randomInt(0.2,30));
     this.t += 0.01    
   }
-  die (elapsed) {
-    if(elapsed%20==0) {
-      this.ctx.drawImage(this.bird_smoke,this.indexdie,0,47,45,this.x-12,this.y-10,47*1.2,45*1.2);
-      this.indexdie+=53;
-    }
-  }
+  // die (elapsed) {
+  //   if(elapsed%20==0) {
+  //     this.ctx.drawImage(this.bird_smoke,this.indexdie,0,47,45,this.x-12,this.y-10,47*1.2,45*1.2);
+  //     this.indexdie+=53;
+  //   }
+  //}
 }
 
 

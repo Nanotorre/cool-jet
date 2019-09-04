@@ -10,8 +10,9 @@ let Game = {
   PI_HALF: Math.PI / 2,
   fps: 60,
   scoreBoard: undefined,
-  birdHPfreq: [120, 360, 480],
-  birfCyclopfreq: [240, 480, 120],
+  birdHPFreq: [120, 360, 480],
+  birfCyclopFreq: [240, 480, 120],
+  birdElvisFreq: [380, 120, 60],
   
  
   time: {
@@ -63,18 +64,23 @@ let Game = {
    
      
       this.time.elapsed = Math.floor(now);
-      this.time.elapsedS= Math.floor(now/1000);
+      // this.time.elapsedS= Math.floor(now/1000);
       if (this.time.counter > 1000) this.time.counter = 0;
       
       //bird HP
-      if(this.birdHPArr.length<= 3 && this.time.counter%this.birdHPfreq[0]==0) this.generateBirdHP();
-      else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPfreq[1]==0) this.generateBirdHP();
-      else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPfreq[2]==0) this.generateBirdHP();
+      if(this.birdHPArr.length<= 3 && this.time.counter%this.birdHPFreq[0]==0) this.generateBirdHP();
+      else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPFreq[1]==0) this.generateBirdHP();
+      else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPFreq[2]==0) this.generateBirdHP();
 
       //bird cyclop
-      if(this.birdCyclopArr.length<= 3 && this.time.counter%this.birfCyclopfreq[0]==0) this.generateBirdHP();
-      else if(3 < this.birdCyclopArr.length >= 5 && this.time.counter%this.birfCyclopfreq[1]==0) this.generateBirdCyclop();
-      else if(5 < this.birdCyclopArr.length < 8 && this.time.counter%this.birfCyclopfreq[2]==0) this.generateBirdCyclop();
+      if(this.birdCyclopArr.length<= 3 && this.time.counter%this.birfCyclopFreq[0]==0) this.generateBirdCyclop();
+      else if(3 < this.birdCyclopArr.length >= 5 && this.time.counter%this.birfCyclopFreq[1]==0) this.generateBirdCyclop();
+      else if(5 < this.birdCyclopArr.length < 8 && this.time.counter%this.birfCyclopFreq[2]==0) this.generateBirdCyclop();
+
+       //bird elvis
+       if(this.birdElvisArr.length<= 3 && this.time.counter%this.birdElvisFreq[0]==0) this.generateBirdElvis();
+       else if(3 < this.birdElvisArr.length >= 5 && this.time.counter%this.birdElvisFreq[1]==0) this.generateBirdElvis();
+       else if(5 < this.birdElvisArr.length < 8 && this.time.counter%this.birdElvisFreq[2]==0) this.generateBirdElvis();
 
       
       //ACTION!!!
@@ -106,7 +112,12 @@ let Game = {
   },
   generateBirdCyclop: function() {
     this.birdHPArr.push(
-      new BirdCyclop(this.w, this.randomInt(this.h2+200, this.h2-200), this.w/2, this.h/2, this.ctx)
+      new BirdCyclop(this.w, this.randomInt(20, this.h-20), this.w/2, this.h/2, this.ctx)
+    );
+  },
+  generateBirdElvis: function() {
+    this.birdHPArr.push(
+      new BirdElvis(this.w, this.randomInt(20, this.h-20), this.w/2, this.h/2, this.ctx)
     );
   },
 
@@ -119,20 +130,20 @@ let Game = {
     if(this.player.active)this.player.move();
     
     this.birdHPArr.forEach(bird => {bird.move()});
-
   },
 
   drawAll: function() {
     this.background.draw();
+
     if(this.player.active) {
-      this.player.draw(this.time.elapsed);
+      this.player.draw(this.time.counter);
     }
     else {
-      this.player.die(this.time.elapsed);
+      this.player.die(this.time.counter);
     }
     
-    this.birdHPArr.forEach(bird => {bird.draw()});
-    this.birdDied.forEach(died => {died.draw(this.time.elapsed)});
+    this.birdHPArr.forEach(bird => {bird.draw(this.time.counter)});
+    this.birdDied.forEach(died => {died.draw(this.time.counter)});
     
     this.background.drawFirstCloud();
     this.drawScore();
@@ -142,6 +153,7 @@ let Game = {
   reset: function() {
     this.birdHPArr = [];
     this.birdCyclopArr= this.birdHPArr.filter(bird=> bird.name== "birdCyclop");
+    this.birdElvisArr= this.birdHPArr.filter(bird=> bird.name== "birdElvis");
     this.birdDied = [];
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
     this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.time.elapsed);
@@ -186,6 +198,8 @@ let Game = {
               bird.active=false; bullet.active=false; 
               this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
               Game.score++;
+              if(bird.name=="birdElvis") Game.score+=2;
+              if(bird.name=="birdCyclop") Game.score+=4;
             }
           })
       })
