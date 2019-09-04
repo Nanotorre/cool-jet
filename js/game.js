@@ -42,21 +42,26 @@ let Game = {
     this.w2= this.w / 2;
     this.h2= this.h / 2;
     this.setCanvasDimensions();
-    // ScoreBoard.init(this.ctx);
-    
+    ScoreBoard.init(this.ctx);
     this.start();
   },
 
   start: function() {
     
     this.reset();
-    this.time.start=Math.floor(performance.now()/1000);
+    
+      this.time.start=(performance.now()/1000).toFixed(2);
+  
+   
     this.time.counter=0;
 
     this.play = now => {
+
       this.time.counter++;
+   
+     
       this.time.elapsed = Math.floor(now);
-      this.time.elapsedS= now;
+      this.time.elapsedS= Math.floor(now/1000);
       if (this.time.counter > 1000) this.time.counter = 0;
       
       //bird HP
@@ -116,15 +121,19 @@ let Game = {
     }
     
     this.birdHPArr.forEach(bird => {bird.draw()});
+    this.birdDied.forEach(died => {died.draw(this.time.elapsed)});
+    
     this.background.drawFirstCloud();
+    this.drawScore();
 
   },
 
   reset: function() {
     this.birdHPArr = [];
+    this.birdDied = [];
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
     this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.time.elapsed);
-    // this.scoreBoard = ScoreBoard;
+    this.scoreBoard = ScoreBoard;
     this.score = 0;
   },
 
@@ -165,30 +174,20 @@ let Game = {
       this.player.bullets.forEach(bullet=> {
           this.birdHPArr.forEach(bird=> {
             if(bullet.x+ 25 >= bird.x && bullet.x < bird.x + bird.birdW  && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH){
-              bird.active=false; bullet.active=false;
+              bird.active=false; bullet.active=false; 
+              this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
+              Game.score++;
             }
-          
-              // 
-              
-            
-              // + 25 >= bird.x &&
-              // bullet.x < bird.x + bird.birdW &&
-              // bullet.y + 12 >= bird.y &&
-              // bullet.y <= (bird.y + bird.birdH))
-            
-          
           })
-        
-   
-       
       })
-      
     }
-    this.birdHPArr= this.birdHPArr.filter(bird=> bird.active === true)
-    this.player.bullets = this.player.bullets.filter(bullet=> bullet.active===true)
-
     
-
+    this.player.bullets = this.player.bullets.filter(bullet=> bullet.active===true);
+    this.birdHPArr= this.birdHPArr.filter(bird=> bird.active === true);
+    this.birdDied= this.birdDied.filter(died=> died.active === true);
+  },
+  drawScore: function() {
+    this.scoreBoard.update(this.score);
   }
 
 };

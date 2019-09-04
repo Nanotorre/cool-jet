@@ -36,12 +36,13 @@ class BirdHP {
     // this.t++;
     this.x--;
     this.y = this.y + (Math.cos(this.t*(2*Math.PI))*this.randomInt(0.2,30));
-    this.t += 0.01
-
-
-
-
-    
+    this.t += 0.01    
+  }
+  die (elapsed) {
+    if(elapsed%20==0) {
+      this.ctx.drawImage(this.bird_smoke,this.indexdie,0,47,45,this.x-12,this.y-10,47*1.2,45*1.2);
+      this.indexdie+=53;
+    }
   }
 
 

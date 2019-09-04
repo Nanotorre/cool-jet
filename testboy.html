@@ -46,6 +46,8 @@
       birdHP.src = "./characters/enemies/bird-hp.png";
       let boy_dies = new Image();
       boy_dies.src = "./characters/boy/boy_dies.png";
+      let bird_smoke = new Image();
+      bird_smoke.src = "./characters/enemies/bird-smoke.png";
 
 
     // número de imágenes diferentes
@@ -73,7 +75,7 @@
 
 let x=33, y=32;
 // 61x45
-let index= 5;
+let index= 0;
 let frameIndex = 5;
   // }, 1000/60);
   setInterval(() => {
@@ -94,14 +96,21 @@ let frameIndex = 5;
     //   index+=53.8;
     // }
     // let frames = 2;
+    
+    ctx.drawImage(bird_smoke,index,0,47,45,w2,h2,47*2,45*2);
+  
+   
+      index+=53;
+    
+    // let frames = 2;
 
-    ctx.drawImage(boy_dies,index,0,50,60,x,y,50*1.5,60*1.5);
-    if (index>350) {
-      index=0;
-    }
-    else {
-      index+=73.4;
-    }
+    // ctx.drawImage(boy_dies,index,0,50,60,x,y,50*1.5,60*1.5);
+    // if (index>350) {
+    //   index=0;
+    // }
+    // else {
+    //   index+=73.4;
+    // }
 
 
     
@@ -144,7 +153,7 @@ let frameIndex = 5;
     
  
     // ctx.drawImage(img,w2,h2);
-  }, 500);
+  }, 1000/20);
   
   
   
