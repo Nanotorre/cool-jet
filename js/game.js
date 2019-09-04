@@ -13,6 +13,7 @@ let Game = {
   birdHPFreq: [120, 360, 480],
   birfCyclopFreq: [240, 480, 120],
   birdElvisFreq: [380, 120, 60],
+  blueDiamondFreq: 240,
   
  
   time: {
@@ -67,20 +68,13 @@ let Game = {
       // this.time.elapsedS= Math.floor(now/1000);
       if (this.time.counter > 1000) this.time.counter = 0;
       
-      //bird HP
-      if(this.birdHPArr.length<= 3 && this.time.counter%this.birdHPFreq[0]==0) this.generateBirdHP();
-      else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPFreq[1]==0) this.generateBirdHP();
-      else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPFreq[2]==0) this.generateBirdHP();
+      this.generateAllBirds();
+      this.generateUpgrades();
 
-      //bird cyclop
-      if(this.birdCyclopArr.length<= 3 && this.time.counter%this.birfCyclopFreq[0]==0) this.generateBirdCyclop();
-      else if(3 < this.birdCyclopArr.length >= 5 && this.time.counter%this.birfCyclopFreq[1]==0) this.generateBirdCyclop();
-      else if(5 < this.birdCyclopArr.length < 8 && this.time.counter%this.birfCyclopFreq[2]==0) this.generateBirdCyclop();
+      //upgrades
+      // 
 
-       //bird elvis
-       if(this.birdElvisArr.length<= 3 && this.time.counter%this.birdElvisFreq[0]==0) this.generateBirdElvis();
-       else if(3 < this.birdElvisArr.length >= 5 && this.time.counter%this.birdElvisFreq[1]==0) this.generateBirdElvis();
-       else if(5 < this.birdElvisArr.length < 8 && this.time.counter%this.birdElvisFreq[2]==0) this.generateBirdElvis();
+
 
       
       //ACTION!!!
@@ -104,22 +98,46 @@ let Game = {
     };
     requestAnimationFrame(this.play);
   },
+  generateAllBirds: function (){
+    //bird HP
+    if(this.birdHPArr.length<= 3 && this.time.counter%this.birdHPFreq[0]==0) this.generateBirdHP();
+    else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPFreq[1]==0) this.generateBirdHP();
+    else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPFreq[2]==0) this.generateBirdHP();
+    
+    //bird cyclop
+    if(this.birdCyclopArr.length<= 3 && this.time.counter%this.birfCyclopFreq[0]==0) this.generateBirdCyclop();
+    else if(3 < this.birdCyclopArr.length >= 5 && this.time.counter%this.birfCyclopFreq[1]==0) this.generateBirdCyclop();
+    else if(5 < this.birdCyclopArr.length < 8 && this.time.counter%this.birfCyclopFreq[2]==0) this.generateBirdCyclop();
+    
+    //bird elvis
+    if(this.birdElvisArr.length<= 3 && this.time.counter%this.birdElvisFreq[0]==0) this.generateBirdElvis();
+    else if(3 < this.birdElvisArr.length >= 5 && this.time.counter%this.birdElvisFreq[1]==0) this.generateBirdElvis();
+    else if(5 < this.birdElvisArr.length < 8 && this.time.counter%this.birdElvisFreq[2]==0) this.generateBirdElvis();
+  },
 
   generateBirdHP: function() {
     this.birdHPArr.push(
       new BirdHP(this.w, this.randomInt(this.h2+200, this.h2-200), this.w/2, this.h/2, this.ctx)
     );
   },
+
   generateBirdCyclop: function() {
     this.birdHPArr.push(
       new BirdCyclop(this.w, this.randomInt(20, this.h-20), this.w/2, this.h/2, this.ctx)
     );
   },
+
   generateBirdElvis: function() {
     this.birdHPArr.push(
       new BirdElvis(this.w, this.randomInt(20, this.h-20), this.w/2, this.h/2, this.ctx)
     );
   },
+
+  generateUpgrades: function () {
+    if(this.time.counter%this.blueDiamondFreq==0) this.upgrade= new BlueDiamond(this.w, this.randomInt(20, this.h-20), this.ctx);
+  },
+
+  
 
   clear: function() {
     this.ctx.clearRect(0, 0, this.w, this.h);
@@ -128,7 +146,6 @@ let Game = {
   moveAll: function() {
     this.background.move();
     if(this.player.active)this.player.move();
-    
     this.birdHPArr.forEach(bird => {bird.move()});
   },
 
@@ -144,7 +161,9 @@ let Game = {
     
     this.birdHPArr.forEach(bird => {bird.draw(this.time.counter)});
     this.birdDied.forEach(died => {died.draw(this.time.counter)});
-    
+
+    if(typeof this.upgrade == "object")  this.upgrade.draw(this.time.counter); 
+  
     this.background.drawFirstCloud();
     this.drawScore();
 

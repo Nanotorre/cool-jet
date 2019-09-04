@@ -52,6 +52,8 @@
       bird_smoke.src = "./characters/enemies/bird-smoke.png";
       let birdElvis = new Image();
       birdElvis.src = "./characters/enemies/bird-elvis.png";
+      let blueDiamond = new Image();
+      blueDiamond.src = "./characters/upgrades/blue-diamond.png";
 
 
     // número de imágenes diferentes
@@ -109,14 +111,14 @@ let frameIndex = 5;
     // }
     // let frames = 2;
     
-    ctx.drawImage(birdElvis,index,0,43,35,w2,h2,43*2,35*2);
-    if (index>375) {
-      index=2;
-    }
-    else {
-      index+=53.8;
-    }
-    let frames = 2;
+    // ctx.drawImage(birdElvis,index,0,43,35,w2,h2,43*2,35*2);
+    // if (index>375) {
+    //   index=2;
+    // }
+    // else {
+    //   index+=53.8;
+    // }
+    // let frames = 2;
     
     // ctx.drawImage(bird_smoke,index,0,47,45,w2,h2,47*2,45*2);
     //   index+=53;
@@ -130,17 +132,23 @@ let frameIndex = 5;
     // else {
     //   index+=73.4;
     // }
+    ctx.drawImage(blueDiamond,index,0,110,106,w2,h2,110,106);
+    if (index>1330) {
+      index=0;
+    }
+    else {
+      index+=112.5;}
 
 
     
 
 
-    function easeInOutQuad (t, b, c, d) {
-      if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-      return -c / 2 * ((--t) * (t - 2) - 1) + b;
-    }
-    this.x = easeInOutQuad (t, this.x, 0, 4);
-    t+=1;
+    // function easeInOutQuad (t, b, c, d) {
+    //   if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+    //   return -c / 2 * ((--t) * (t - 2) - 1) + b;
+    // }
+    // this.x = easeInOutQuad (t, this.x, 0, 4);
+    // t+=1;
     // this.x -=2;
      // ctx.drawImage(img,index,0,43,60,w2,h2,43*2,61*2);
     // if (index>380) {
@@ -164,15 +172,8 @@ let frameIndex = 5;
     //   frameIndex==5;
     // }
     
-    
-    
-
-  
-   
-    
- 
     // ctx.drawImage(img,w2,h2);
-  }, 1000/20);
+  },1000/10);
   
   
   

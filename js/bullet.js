@@ -34,8 +34,7 @@ class Bullet {
   }
 
   move() {
-    this.x+=10 //this.vx;
+    this.x+=10 
 
   }
 }
-//5-80
