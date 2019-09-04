@@ -11,6 +11,8 @@ let Game = {
   fps: 60,
   scoreBoard: undefined,
   birdHPfreq: [120, 360, 480],
+  birfCyclopfreq: [240, 480, 120],
+  
  
   time: {
     start: undefined,
@@ -69,6 +71,11 @@ let Game = {
       else if(3 < this.birdHPArr.length >= 5 && this.time.counter%this.birdHPfreq[1]==0) this.generateBirdHP();
       else if(5 < this.birdHPArr.length < 8 && this.time.counter%this.birdHPfreq[2]==0) this.generateBirdHP();
 
+      //bird cyclop
+      if(this.birdCyclopArr.length<= 3 && this.time.counter%this.birfCyclopfreq[0]==0) this.generateBirdHP();
+      else if(3 < this.birdCyclopArr.length >= 5 && this.time.counter%this.birfCyclopfreq[1]==0) this.generateBirdCyclop();
+      else if(5 < this.birdCyclopArr.length < 8 && this.time.counter%this.birfCyclopfreq[2]==0) this.generateBirdCyclop();
+
       
       //ACTION!!!
       this.clear();
@@ -95,6 +102,11 @@ let Game = {
   generateBirdHP: function() {
     this.birdHPArr.push(
       new BirdHP(this.w, this.randomInt(this.h2+200, this.h2-200), this.w/2, this.h/2, this.ctx)
+    );
+  },
+  generateBirdCyclop: function() {
+    this.birdHPArr.push(
+      new BirdCyclop(this.w, this.randomInt(this.h2+200, this.h2-200), this.w/2, this.h/2, this.ctx)
     );
   },
 
@@ -129,6 +141,7 @@ let Game = {
 
   reset: function() {
     this.birdHPArr = [];
+    this.birdCyclopArr= this.birdHPArr.filter(bird=> bird.name== "birdCyclop");
     this.birdDied = [];
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
     this.player = new Player(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx, this.time.elapsed);

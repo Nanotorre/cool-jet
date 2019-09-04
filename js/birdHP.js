@@ -1,5 +1,6 @@
 class BirdHP {
   constructor(x, y, w, h, ctx) {
+    this.name = "birdHp";
     this.x = x;
     this.y = y;
     this.w = w;//estas dos se pueden borrar
@@ -44,19 +45,6 @@ class BirdHP {
       this.indexdie+=53;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

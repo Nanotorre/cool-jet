@@ -46,6 +46,8 @@
       birdHP.src = "./characters/enemies/bird-hp.png";
       let boy_dies = new Image();
       boy_dies.src = "./characters/boy/boy_dies.png";
+      let birdCyclop = new Image();
+      birdCyclop.src = "./characters/enemies/bird-cyclop.png";
       let bird_smoke = new Image();
       bird_smoke.src = "./characters/enemies/bird-smoke.png";
 
@@ -96,11 +98,17 @@ let frameIndex = 5;
     //   index+=53.8;
     // }
     // let frames = 2;
-    
-    ctx.drawImage(bird_smoke,index,0,47,45,w2,h2,47*2,45*2);
-  
-   
+    ctx.drawImage(birdCyclop,index,0,39,35,w2,h2,39*2,35*2);
+    if (index>370) {
+      index=6;
+    }
+    else {
       index+=53;
+    }
+    let frames = 2;
+    
+    // ctx.drawImage(bird_smoke,index,0,47,45,w2,h2,47*2,45*2);
+    //   index+=53;
     
     // let frames = 2;
 
@@ -153,7 +161,7 @@ let frameIndex = 5;
     
  
     // ctx.drawImage(img,w2,h2);
-  }, 1000/20);
+  }, 1000/60);
   
   
   
