@@ -75,7 +75,6 @@ let Game = {
       this.moveAll();
       this.drawAll();
       this.clearObstacles();
-     
       this.killBirds()
       if (this.isCollision()) {
         this.player.active=false;
@@ -157,9 +156,6 @@ let Game = {
   },
 
   isCollision: function() {
-    // colisiones genéricas
-    // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
-    // esto chequea que el personaje no estén en colisión con cualquier obstáculo
     return this.birdHPArr.some(bird => {
       return (
         this.player.x + this.player.w >= bird.x &&
