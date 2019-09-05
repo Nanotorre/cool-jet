@@ -54,6 +54,11 @@
       birdElvis.src = "./characters/enemies/bird-elvis.png";
       let blueDiamond = new Image();
       blueDiamond.src = "./characters/upgrades/blue-diamond.png";
+      let redMissile = new Image();
+      redMissile.src = "./characters/boy/red-missile.png";
+      let yellowDiamond = new Image();
+      yellowDiamond.src = "./characters/upgrades/yellow.diamond.png";
+
 
 
     // número de imágenes diferentes
@@ -79,10 +84,10 @@
   //   ctx.clearRect(0, 0, w, h);
   //   draw(framesCounter);
 
-let x=33, y=32;
+// let x=33, y=32;
 // 61x45
-let index= 2;
-let frameIndex = 5;
+let index= 0;
+let frameIndex = 0;
   // }, 1000/60);
   setInterval(() => {
     // ctx.clearRect(0, 0, w, h); 
@@ -132,12 +137,37 @@ let frameIndex = 5;
     // else {
     //   index+=73.4;
     // }
-    ctx.drawImage(blueDiamond,index,0,110,106,w2,h2,110,106);
-    if (index>1330) {
+    // ctx.drawImage(blueDiamond,index,0,110,106,w2,h2,110,106);
+    // if (index>1330) {
+    //   index=0;
+    // }
+    // else {
+    //   index+=112.5;}
+    
+    
+    ctx.drawImage(yellowDiamond,index,0,110,106,w2,h2,110,106);
+    if (index>1100) {
       index=0;
     }
     else {
-      index+=112.5;}
+      index+=113;}
+    
+    
+    
+    
+    
+
+    
+    
+    
+    // if (frameIndex==0){
+    //   frameIndex=41.8;
+    //   // ctx.drawImage(redMissile,frameIndex,0,32,13,w2,h2,32*3,13*3);
+    // }
+    // else {frameIndex=0}
+    
+    // ctx.drawImage(redMissile,frameIndex,0,32,15,w2,h2,32*3,15*3);
+    
 
 
     

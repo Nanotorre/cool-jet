@@ -1,28 +1,20 @@
 class Bullet {
-  constructor(x, y, h, w, ctx, elapsed) {
+  constructor(x, y, ctx) {
+    this.name = "std";
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.w = 33;
+    this.h = 19;
     this.ctx = ctx;
-    this.r = 5;
-    this.vx = 10;
-    this.vy = 1;
-    this.elapsed= elapsed;
-
-    this.gravity = 0.25;
     this.bullets = new Image();
     this.bullets.src = "./characters/boy/bullets.png";
-
-    // número de imágenes diferentes
-    this.frames = 2;
     this.frameIndex = 5;
-    this.active=true
+    this.active= true;
   }
 
   draw() {
-    this.ctx.drawImage(this.bullets,this.frameIndex,0,33,19,this.x,this.y,33*1.5,20*1.5);
-    if(this.elapsed%60==0) {
+    this.ctx.drawImage(this.bullets, this.frameIndex, 0, this.w, this.h, this.x, this.y, 33*1.5, 20*1.5);
+  
       
       if(this.frameIndex==80) {
         this.frameIndex=6;
@@ -30,11 +22,44 @@ class Bullet {
       if(this.frameIndex==5) {
         this.frameIndex=80;
       }
-    }
+
   }
 
   move() {
     this.x+=10 
 
+  }
+}
+
+class RedMissile extends Bullet {
+  constructor(x, y, ctx) {
+    super(x, y, ctx);
+    this.active= true;
+    this.name = "redMissile";
+    this.w = 32;
+    this.h = 15;
+    this.redMissile = new Image();
+    this.redMissile.src = "./characters/boy/red-missile.png";
+    this.frameIndex = 0;
+  }
+  draw(counter) {
+    
+  
+      if (counter%20==0 && this.frameIndex==0){
+        this.frameIndex=41.8;
+
+      }
+      if(counter%20==0 && this.frameIndex==0) {
+        this.frameIndex=0;
+      }
+      // else if(!counter%60==0 && !this.frameIndex==0) {this.frameIndex=0}
+      
+    this.ctx.drawImage(this.redMissile,this.frameIndex,0,this.w,this.h,this.x,this.y,this.w,this.h);
+    // }
+   
+  }
+  move() {
+    this.x+=10; 
+    this.y+= Game.randomInt(-10,10)
   }
 }

@@ -1,5 +1,7 @@
 class BlueDiamond {
   constructor(x, y, ctx) {
+    this.weapon = "redMissile";
+    this.bulletsNo = 10;
     this.x = x;
     this.y = y;
     this.w = 110;
@@ -8,10 +10,8 @@ class BlueDiamond {
     this.blueDiamond = new Image();
     this.blueDiamond.src = "./characters/upgrades/blue-diamond.png";
     this.index=0;
-    // número de imágenes diferentes
-    this.frames = 2;
-    this.frameIndex = 5;
-    this.active=true
+    this.active = true;
+
   }
 
   draw(counter) {
@@ -22,10 +22,11 @@ class BlueDiamond {
     }
     if(counter%3==0)
       this.index+=112.5;
-    this.move()
   }
 
   move() {
     this.x-=3;
   }
 }
+
+// class BlueDiamond

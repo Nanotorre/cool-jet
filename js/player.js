@@ -26,6 +26,8 @@ class Player {
     this.w = 43;
     this.h = 60;
 
+    this.weaponName = "std";
+    this.bulletsNo = 30;
     this.bullets = [];
     this.index = 14;
     this.indexdie = 0;
@@ -59,9 +61,9 @@ class Player {
       if (this.index > 380) {
         this.index = 14;
       }
-      else {
+      if(counter%2==0)
         this.index += 74.1;
-      }
+  
     }
     //sprite JET OFF
     if (!this.UP) {
@@ -73,13 +75,14 @@ class Player {
         this.index += 74.1;
       }
     }
-    //sprite SHOOT
-    if (this.SPACE) {
-      this.ctx.drawImage(this.boy_shoots, this.index, 0, 55, 60, this.x, this.y, 55 * 1.5, this.h * 1.5);
-      // if (this.index > 380) 
-      // this.index = 14;
-   
-      if(Game.time.counter%2==0) this.index += 74.1;
+    //  sprite SHOOT
+    if (this.SPACE ) {
+      this.ctx.drawImage(this.boy_shoots, this.indexdie, 0, 11, 15, this.x + (this.w*1.5),
+        this.y + ((this.h*1.5) / 2.4), 11 * 1.5, 15 * 1.5);
+      if (this.indexdie > 62) 
+      this.indexdie = 0;
+      if(counter%4==0) this.indexdie += 11;
+
       if(Game.time.counter%30==0) this.SPACE = false;
 
     }
@@ -88,7 +91,7 @@ class Player {
       return bullet.x < this.canvasW;
     });
     this.bullets.forEach(function (bullet) {
-      bullet.draw();
+      bullet.draw(Game.time.counter);
       bullet.move();
     });
 
@@ -110,9 +113,13 @@ class Player {
       if (e.keyCode == this.keys.LEFT_KEY) this.LEFT = true;
       if (e.keyCode == this.keys.RIGHT_KEY) this.RIGHT = true;
       if (e.keyCode == this.keys.UP_KEY) this.UP = true;
-      if (e.keyCode == this.keys.SPACE) {
+      if (e.keyCode == this.keys.SPACE && this.bulletsNo>0) {
         this.SPACE = true;
-        this.shoot();
+        if(this.bulletsNo > 0) {
+          this.shoot();
+          this.bulletsNo--;
+        }
+        
      
     
       }
@@ -167,14 +174,31 @@ class Player {
   }
 
   shoot() {
-    let bullet = new Bullet(
-      this.x + this.w,
-      this.y + (this.h / 2 - 5),
-      this.h,
-      this.w,
-      this.ctx,
-      this.elapsed
-    );
+    let bullet;
+    switch (this.weaponName) {
+      case "redMissile":
+          bullet = new RedMissile(
+            this.x + this.w,
+            this.y + (this.h-23),
+            this.ctx,
+          );
+          break;
+      default:
+          bullet = new Bullet(
+            this.x + this.w,
+            this.y + (this.h / 2 - 5),
+            this.ctx,
+          );
+          if(Game.time.counter%2==0) {
+            bullet = new Bullet(
+              this.x + this.w,
+              this.y + (this.h / 2 - 5),
+              this.ctx,
+            );
+          }
+       
+    }
+   
     this.bullets.push(bullet);
   }
 
