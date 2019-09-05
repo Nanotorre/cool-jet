@@ -13,7 +13,7 @@ class Player {
       SPACE: 32
     },
       //sprites
-      this.boy_off = new Image();
+    this.boy_off = new Image();
     this.boy_off.src = "./characters/boy/boy_off.png";
     this.boy_on = new Image();
     this.boy_on.src = "./characters/boy/boy.png";
@@ -31,6 +31,7 @@ class Player {
     this.bullets = [];
     this.index = 14;
     this.indexdie = 0;
+    this.indexGameOver= 0;
     
     this.speed = 9;
     this.sense = .023;
@@ -98,13 +99,11 @@ class Player {
   }
   die(counter) {
 
-    this.ctx.drawImage(this.boy_dies, this.indexdie, 0, 50, 60, this.x, this.y, 50 * 1.5, this.h * 1.5);
-    if (this.indexdie > 380) {
-      this.indexdie = 380;
-    }
-    else if (counter % 15 == 0) {
-      this.indexdie += 73.4;
-    }
+    this.ctx.drawImage(this.boy_dies, this.indexGameOver, 0, 50, 60, this.x, this.y, 50 * 1.5, this.h * 1.5);
+  
+    if (counter % 10 == 0) 
+    this.indexGameOver+= 73.4;
+    
   }
 
   controlKeys() {

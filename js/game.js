@@ -227,7 +227,7 @@ let Game = {
         this.player.y <= (upgrade.y + upgrade.h)
       )
       {
-        console.log(upgrade.name)
+    
         this.player.weaponName= upgrade.weapon;
         this.player.bulletsNo = upgrade.bulletsNo;
         upgrade.active = false;
@@ -242,7 +242,7 @@ let Game = {
         this.birdHPArr.forEach(bird => {
           if(bullet.name==="blueMissile") {
 
-            if (bullet.x + bullet.w + 20 >= bird.x && bullet.x-20 < bird.x + bird.birdW && bullet.y + bullet.h + 20 >= bird.y && bullet.y-20 <= bird.y + bird.birdH) {
+            if (bullet.x + bullet.w + 40 >= bird.x && bullet.x-40 < bird.x + bird.birdW && bullet.y + bullet.h + 40 >= bird.y && bullet.y-40 <= bird.y + bird.birdH) {
               bird.active = false; bullet.active = false;
               Game.score++;
               if (bird.name == "birdElvis") Game.score += 2;
@@ -274,7 +274,7 @@ let Game = {
   },
 
   drawScore: function () {
-    this.scoreBoard.update(this.score);
+    this.scoreBoard.update(this.score, this.player.bulletsNo);
   }
 
 };

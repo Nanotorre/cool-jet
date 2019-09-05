@@ -92,7 +92,7 @@
 
 // let x=33, y=32;
 // 61x45
-let index= 150;
+let index= 0;
 let frameIndex = 30;
   // }, 1000/60);
   setInterval(() => {
@@ -143,13 +143,13 @@ let frameIndex = 30;
     
     // let frames = 2;
 
-    // ctx.drawImage(boy_dies,index,0,50,60,x,y,50*1.5,60*1.5);
-    // if (index>350) {
-    //   index=0;
-    // }
-    // else {
-    //   index+=73.4;
-    // }
+    ctx.drawImage(boy_dies,index,0,50,60,400,400,50*1.5,60*1.5);
+    if (index>350) {
+      index=0;
+    }
+    else {
+      index+=73.4;
+    }
     // ctx.drawImage(blueDiamond,index,0,110,106,w2,h2,110,106);
     // if (index>1330) {
     //   index=0;
@@ -157,12 +157,12 @@ let frameIndex = 30;
     // else {
     //   index+=112.5;}
 
-    ctx.drawImage(explosionPlus,index,0,230,213,w2,h2,230,213);
-    if (index>9810) {
-      index=0;
-    }
-    else {
-      index+=239;}
+    // ctx.drawImage(explosionPlus,index,0,230,213,w2,h2,230,213);
+    // if (index>9810) {
+    //   index=0;
+    // }
+    // else {
+    //   index+=239;}
     
     
     // ctx.drawImage(yellowDiamond,index,0,110,106,w2,h2,110,106);
@@ -231,7 +231,7 @@ let frameIndex = 30;
     // }
     
     // ctx.drawImage(img,w2,h2);
-  },1000/60);
+  },1000/10);
   
   
   
