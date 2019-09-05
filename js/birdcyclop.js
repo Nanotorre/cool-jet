@@ -3,7 +3,7 @@ class BirdCyclop {
     this.name = "birdCyclop";
     this.x = x;
     this.y = y;
-    this.w = w;//estas dos se pueden borrar
+    this.w = w;
     this.h = h;
     this.birdW = 39;
     this.birdH = 35;
@@ -13,6 +13,8 @@ class BirdCyclop {
     this.index=6;
     this.t = 0;
     this.active=true
+
+    this.angle = 0;
   }
   randomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -27,10 +29,18 @@ class BirdCyclop {
       }
   };
 
-  move() {
-    this.x--;
-    // this.y = this.y + (Math.cos(this.t*(2*Math.PI))*this.randomInt(0.2,30));
-    // this.t += 0.01    
+  easeInCirc  (counter, duration, valueStart, valueChange) {
+    return -valueChange * (Math.sqrt(1 - (counter/=duration)*counter) - 1) + valueStart;
+  }
+
+  move(playerx, playery, counter) {
+    this.x--
+    this.y= this.easeInCirc(counter, 10000, this.y, 2)
+    
+
+ 
+   
   };
 
 }
+
