@@ -19,3 +19,27 @@ class ExplosionFx {
     }
   }
 }
+class ExplosionPlusFx {
+  constructor(x, y, ctx) {
+    this.x=x;
+    this.y=y;
+    this.w= 230;
+    this.h= 213;
+    this.ctx= ctx;
+    this.index=0;
+    this.explosionPlus = new Image();
+    this.explosionPlus.src = "./characters/explosion.png";
+    this.active= true;
+    this.counter= 0;
+  }
+  draw (counter) {
+    if(counter%180==0) this.active=false;
+
+  this.ctx.drawImage(this.explosionPlus,this.index,0,this.w,this.h,this.x,this.y,this.w,this.h);
+    if (this.index>9810) {
+      this.index=0;
+    }
+    else {
+      this.index+=239;}
+  }
+}

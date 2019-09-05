@@ -183,19 +183,21 @@ class Player {
             this.ctx,
           );
           break;
-      default:
+
+      case "blueMissile":
+          bullet = new BlueMissile(
+            this.x + this.w,
+            this.y + (this.h-23),
+            this.ctx,
+          );
+          break;
+
+      case "std":
           bullet = new Bullet(
             this.x + this.w,
             this.y + (this.h / 2 - 5),
             this.ctx,
           );
-          if(Game.time.counter%2==0) {
-            bullet = new Bullet(
-              this.x + this.w,
-              this.y + (this.h / 2 - 5),
-              this.ctx,
-            );
-          }
        
     }
    

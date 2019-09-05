@@ -9,7 +9,10 @@ let Game = {
   birdHPFreq: [120, 360, 480],
   birfCyclopFreq: [240, 480, 120],
   birdElvisFreq: [380, 120, 60],
+  birdBatFreq: [480, 240, 180],
   blueDiamondFreq: 240,
+  yellowDiamondFreq: 480,
+  redDiamondFreq: 580,
 
 
   time: {
@@ -96,6 +99,11 @@ let Game = {
     if (this.birdElvisArr.length <= 3 && this.time.counter % this.birdElvisFreq[0] == 0) this.generateBirdElvis();
     else if (3 < this.birdElvisArr.length >= 5 && this.time.counter % this.birdElvisFreq[1] == 0) this.generateBirdElvis();
     else if (5 < this.birdElvisArr.length < 8 && this.time.counter % this.birdElvisFreq[2] == 0) this.generateBirdElvis();
+
+    //bird Bat
+    if (this.birdBatArr.length <= 3 && this.time.counter % this.birdBatFreq[0] == 0) this.generateBirdBat();
+    else if (3 < this.birdBatArr.length >= 5 && this.time.counter % this.birdBatFreq[1] == 0) this.generateBirdBat();
+    else if (5 < this.birdBatArr.length < 8 && this.time.counter % this.birdBatFreq[2] == 0) this.generateBirdBat();
   },
 
   generateBirdHP: function () {
@@ -116,9 +124,19 @@ let Game = {
     );
   },
 
+  generateBirdBat: function () {
+    this.birdHPArr.push(
+      new BirdBat(this.w, this.randomInt(20, this.h - 20), this.ctx)
+    );
+  },
+
   generateUpgrades: function () {
     if (this.time.counter % this.blueDiamondFreq == 0)
       this.upgradesArr.push(new BlueDiamond(this.w, this.randomInt(20, this.h - 20), this.ctx))
+    if (this.time.counter % this.yellowDiamondFreq == 0)
+      this.upgradesArr.push(new YellowDiamond(this.w, this.randomInt(20, this.h - 20), this.ctx))
+    if (this.time.counter % this.redDiamondFreq == 0)
+      this.upgradesArr.push(new RedDiamond(this.w, this.randomInt(20, this.h - 20), this.ctx))
 
   },
 
@@ -158,6 +176,7 @@ let Game = {
     this.birdHPArr = [];
     this.birdCyclopArr = this.birdHPArr.filter(bird => bird.name == "birdCyclop");
     this.birdElvisArr = this.birdHPArr.filter(bird => bird.name == "birdElvis");
+    this.birdBatArr = this.birdHPArr.filter(bird => bird.name == "birdBat");
     this.birdDied = [];
     this.upgradesArr = [];
     this.background = new Background(this.myCanvasDOMEl.width, this.myCanvasDOMEl.height, this.ctx);
@@ -221,12 +240,29 @@ let Game = {
     if (this.player.bullets.length > 0 && this.birdHPArr.length > 0) {
       this.player.bullets.forEach(bullet => {
         this.birdHPArr.forEach(bird => {
+          if(bullet.name==="blueMissile") {
+
+            if (bullet.x + bullet.w + 20 >= bird.x && bullet.x-20 < bird.x + bird.birdW && bullet.y + bullet.h + 20 >= bird.y && bullet.y-20 <= bird.y + bird.birdH) {
+              bird.active = false; bullet.active = false;
+              Game.score++;
+              if (bird.name == "birdElvis") Game.score += 2;
+              if (bird.name == "birdCyclop") Game.score += 4;
+              if (bird.name == "birdBat") Game.score += 10;
+              this.birdDied.push(new ExplosionPlusFx(bird.x, bird.y, this.ctx));
+            }
+
+          }
+          else {
+
           if (bullet.x + 25 >= bird.x && bullet.x < bird.x + bird.birdW && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH) {
             bird.active = false; bullet.active = false;
             this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
             Game.score++;
             if (bird.name == "birdElvis") Game.score += 2;
             if (bird.name == "birdCyclop") Game.score += 4;
+            if (bird.name == "birdBat") Game.score += 10;
+          }
+
           }
         })
       })

@@ -56,8 +56,14 @@
       blueDiamond.src = "./characters/upgrades/blue-diamond.png";
       let redMissile = new Image();
       redMissile.src = "./characters/boy/red-missile.png";
+      let blueMissile = new Image();
+      blueMissile.src = "./characters/boy/blue-missile.png";
       let yellowDiamond = new Image();
       yellowDiamond.src = "./characters/upgrades/yellow.diamond.png";
+      let birdBat = new Image();
+      birdBat.src = "./characters/enemies/bird-bat.png";
+      let explosionPlus = new Image();
+      explosionPlus.src = "./characters/explosion.png";
 
 
 
@@ -86,8 +92,8 @@
 
 // let x=33, y=32;
 // 61x45
-let index= 0;
-let frameIndex = 0;
+let index= 150;
+let frameIndex = 30;
   // }, 1000/60);
   setInterval(() => {
     // ctx.clearRect(0, 0, w, h); 
@@ -122,7 +128,14 @@ let frameIndex = 0;
     // }
     // else {
     //   index+=53.8;
+
+    // ctx.drawImage(birdBat,index,0,43,35,w2,h2,43*2,35*2);
+    // if (index>375) {
+    //   index=2;
     // }
+    // else {
+    //   index+=53.7;
+    //}
     // let frames = 2;
     
     // ctx.drawImage(bird_smoke,index,0,47,45,w2,h2,47*2,45*2);
@@ -143,23 +156,38 @@ let frameIndex = 0;
     // }
     // else {
     //   index+=112.5;}
-    
-    
-    ctx.drawImage(yellowDiamond,index,0,110,106,w2,h2,110,106);
-    if (index>1100) {
+
+    ctx.drawImage(explosionPlus,index,0,230,213,w2,h2,230,213);
+    if (index>9810) {
       index=0;
     }
     else {
-      index+=113;}
+      index+=239;}
+    
+    
+    // ctx.drawImage(yellowDiamond,index,0,110,106,w2,h2,110,106);
+    // if (index>1100) {
+    //   index=0;
+    // }
+    // else {
+    //   index+=113;}
     
     
     
     
     
 
+    // 230 9810
     
     
-    
+    // if (frameIndex==0){
+    //   frameIndex=41.8;
+      // ctx.drawImage(blueMissile,frameIndex,0,38,13,w2,h2,38*3,13*3);
+    // }
+    // else {frameIndex=0}
+
+
+
     // if (frameIndex==0){
     //   frameIndex=41.8;
     //   // ctx.drawImage(redMissile,frameIndex,0,32,13,w2,h2,32*3,13*3);
@@ -203,7 +231,7 @@ let frameIndex = 0;
     // }
     
     // ctx.drawImage(img,w2,h2);
-  },1000/10);
+  },1000/60);
   
   
   
