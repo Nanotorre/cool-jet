@@ -9,7 +9,7 @@ let Game = {
   birdHPFreq: [120, 360, 480],
   birfCyclopFreq: [240, 480, 120],
   birdElvisFreq: [380, 120, 60],
-  birdBatFreq: [480, 240, 180],
+  birdBatFreq: [480, this.randomInt(480, 550)],
   blueDiamondFreq: 240,
   yellowDiamondFreq: 480,
   redDiamondFreq: 580,
@@ -147,7 +147,7 @@ let Game = {
   moveAll: function () {
     this.background.move();
     if (this.player.active) this.player.move();
-    this.birdHPArr.forEach(bird => { bird.move() });
+    this.birdHPArr.forEach(bird => { bird.move(this.player.x, this.player.y) });
     this.upgradesArr.forEach(upgrade => { upgrade.move() });
 
   },

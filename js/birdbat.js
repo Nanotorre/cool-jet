@@ -10,6 +10,8 @@ class BirdBat {
     this.birdBat.src = "./characters/enemies/bird-bat.png";
     this.index=0;
     this.active=true
+    this.gravity= 9;
+    this.sense= 0.2;
   }
   randomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -24,10 +26,29 @@ class BirdBat {
     }    
   }
 
-  move() {
-    this.x--;
-    // this.y = this.y + (Math.cos(this.t*(2*Math.PI))*this.randomInt(0.2,30));
-    // this.t += 0.01    
+  move(playerX, playerY) {
+    
+    this.x-=1
+
+    if(this.y-5 >= playerY+ 10) {     
+      this.gravity += this.sense;
+      this.y-= this.gravity;
+      this.sense= 0.30;
+      
+    }
+    else if (this.y+5< playerY-10){
+      
+      this.gravity += this.sense;
+      this.y+= this.gravity;
+      this.sense= -0.30;
+    
+
+    }
+    
+
+
+    // this.x-= (playerX-this.x)-5;
+
   }
 
   
