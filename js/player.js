@@ -3,7 +3,7 @@ class Player {
     this.canvasW = w;
     this.canvasH = h;
     this.ctx = ctx;
-    this.x = 200;
+    this.x = -43;
     this.y = 200;
     this.active = true;
     this.keys = {
@@ -55,6 +55,7 @@ class Player {
   }
 
   draw(counter) {
+    
 
     //sprite JET ON
     if (this.UP) {
@@ -146,30 +147,34 @@ class Player {
     this.sense= 0.23;
   }
 
-  move() {
-   
-    if(this.UP && this.y <= 6) {
-      this.y=6; 
-      this.gravity= 0;
+  move(counter) {
+    if(counter<240) {
+      this.x++;
+ 
     }
     else {
-      this.gravity += this.sense;
-      this.y += this.gravity;
-      this.sense= 0.23;
-
-      if (this.UP) {
-        this.moveUp();
-       }
+      if(this.UP && this.y <= 6) {
+        this.y=6; 
+        this.gravity= 0;
+      }
+      else {
+        this.gravity += this.sense;
+        this.y += this.gravity;
+        this.sense= 0.23;
+  
+        if (this.UP) {
+          this.moveUp();
+         }
+      }
+      
+      if (this.LEFT) {
+        this.moveLeft ();
+      };
+  
+      if (this.RIGHT) {
+        this.moveRight();
+      }
     }
-    
-    if (this.LEFT) {
-      this.moveLeft ();
-    };
-
-    if (this.RIGHT) {
-      this.moveRight();
-    }
-
   }
 
   shoot() {

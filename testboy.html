@@ -38,6 +38,10 @@
       setCanvasDimensions();
 
       window.onresize = setCanvasDimensions;
+      let coverImg = new Image();
+    coverImg.src = "./img/gameCover.jpg";
+   
+    ctx.drawImage(coverImg, 0, 0, this.w, this.h);
       let img = new Image();
       img.src = "./characters/boy/boy_shoots.png";
       let img2 = new Image();
@@ -96,6 +100,7 @@ let index= 0;
 let frameIndex = 30;
   // }, 1000/60);
   setInterval(() => {
+    
     // ctx.clearRect(0, 0, w, h); 
     // ctx.drawImage(img,index,0,55,60,w2,h2,55*2,61*2);
     // if (index>380) {
@@ -105,6 +110,7 @@ let frameIndex = 30;
     //   index+=74.1;
     // }
     ctx.clearRect(0, 0, w, h); 
+    ctx.drawImage(coverImg, 0, 0, this.w, this.h);
     // ctx.drawImage(birdHP,index,0,36,32,w2,h2,36*2,32*2);
     // if (index>380) {
     //   index=6;
@@ -235,15 +241,7 @@ let frameIndex = 30;
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   </script>
 
 </body>

@@ -29,13 +29,11 @@ class BirdCyclop {
       }
   };
 
-  easeInCirc  (counter, duration, valueStart, valueChange) {
-    return -valueChange * (Math.sqrt(1 - (counter/=duration)*counter) - 1) + valueStart;
-  }
+  // easer = new Easer().using('in-expo');
 
   move(playerx, playery, counter) {
-    this.x--
-    this.y= this.easeInCirc(counter, 10000, this.y, 2)
+  //   this.x--
+  //   this.y= this.easer(this.randomInt(0,1))
     
 
  

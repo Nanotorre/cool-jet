@@ -43,12 +43,14 @@ let Game = {
     this.w2 = this.w / 2;
     this.h2 = this.h / 2;
     this.setCanvasDimensions();
-    ScoreBoard.init(this.ctx);
-    this.start();
+    
+    this.printIntro();
   },
 
-  start: function () {
 
+
+  start: function () {
+    ScoreBoard.init(this.ctx);
     this.reset();
     this.time.counter = 0;
 
@@ -56,7 +58,7 @@ let Game = {
 
       this.time.counter++;
       this.time.elapsed = Math.floor(now);
-      if (this.time.counter > 1000) this.time.counter = 0;
+      if (this.time.counter > 2000) this.time.counter = 1000;
       this.generateAllBirds();
       this.generateUpgrades();
 
@@ -72,7 +74,7 @@ let Game = {
         setTimeout(() => {
           this.gameOver();
         }, 2000);
-      
+
 
       }
       if (this.player.y > Game.h) {
@@ -114,7 +116,7 @@ let Game = {
 
   generateBirdCyclop: function () {
     this.birdHPArr.push(
-      new BirdCyclop(this.w, this.randomInt(this.h/2+50, this.h/2 - 50), this.w , this.h, this.ctx)
+      new BirdCyclop(this.w, this.randomInt(this.h / 2 + 50, this.h / 2 - 50), this.w, this.h, this.ctx)
     );
   },
 
@@ -146,7 +148,7 @@ let Game = {
 
   moveAll: function () {
     this.background.move();
-    if (this.player.active) this.player.move();
+    if (this.player.active) this.player.move(this.time.counter);
     this.birdHPArr.forEach(bird => { bird.move(this.player.x, this.player.y, this.time.counter) });
     this.upgradesArr.forEach(upgrade => { upgrade.move() });
 
@@ -186,8 +188,13 @@ let Game = {
   },
 
   stop: function () {
-    window.cancelAnimationFrame(this.play);
-    this.play = undefined;
+    
+    if (this.time.counter%240===0){
+      this.play = undefined;
+      this.printEndGame();
+      window.cancelAnimationFrame(this.play);
+
+    }
 
   },
 
@@ -219,19 +226,18 @@ let Game = {
 
   isUpgrade: function () {
     this.upgradesArr.forEach(upgrade => {
-     
+
       if (
         this.player.x + this.player.w >= upgrade.x &&
         this.player.x < upgrade.x + upgrade.w &&
         this.player.y + this.player.h >= upgrade.y &&
         this.player.y <= (upgrade.y + upgrade.h)
-      )
-      {
-    
-        this.player.weaponName= upgrade.weapon;
+      ) {
+
+        this.player.weaponName = upgrade.weapon;
         this.player.bulletsNo = upgrade.bulletsNo;
         upgrade.active = false;
-        this.upgradesArr = this.upgradesArr.filter(upgrade => upgrade.active === true); 
+        this.upgradesArr = this.upgradesArr.filter(upgrade => upgrade.active === true);
       }
     });
   },
@@ -240,9 +246,9 @@ let Game = {
     if (this.player.bullets.length > 0 && this.birdHPArr.length > 0) {
       this.player.bullets.forEach(bullet => {
         this.birdHPArr.forEach(bird => {
-          if(bullet.name==="blueMissile") {
+          if (bullet.name === "blueMissile") {
 
-            if (bullet.x + bullet.w + 40 >= bird.x && bullet.x-40 < bird.x + bird.birdW && bullet.y + bullet.h + 40 >= bird.y && bullet.y-40 <= bird.y + bird.birdH) {
+            if (bullet.x + bullet.w + 40 >= bird.x && bullet.x - 40 < bird.x + bird.birdW && bullet.y + bullet.h + 40 >= bird.y && bullet.y - 40 <= bird.y + bird.birdH) {
               bird.active = false; bullet.active = false;
               Game.score++;
               if (bird.name == "birdElvis") Game.score += 2;
@@ -254,14 +260,14 @@ let Game = {
           }
           else {
 
-          if (bullet.x + 25 >= bird.x && bullet.x < bird.x + bird.birdW && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH) {
-            bird.active = false; bullet.active = false;
-            this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
-            Game.score++;
-            if (bird.name == "birdElvis") Game.score += 2;
-            if (bird.name == "birdCyclop") Game.score += 4;
-            if (bird.name == "birdBat") Game.score += 10;
-          }
+            if (bullet.x + 25 >= bird.x && bullet.x < bird.x + bird.birdW && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH) {
+              bird.active = false; bullet.active = false;
+              this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
+              Game.score++;
+              if (bird.name == "birdElvis") Game.score += 2;
+              if (bird.name == "birdCyclop") Game.score += 4;
+              if (bird.name == "birdBat") Game.score += 10;
+            }
 
           }
         })
@@ -275,6 +281,32 @@ let Game = {
 
   drawScore: function () {
     this.scoreBoard.update(this.score, this.player.bulletsNo);
+  }, 
+
+  printIntro: function () {
+    let coverImg = new Image();
+    coverImg.src = "./img/gameCover.jpg";
+    coverImg.onload = function() {
+      this.ctx.drawImage(coverImg, 0, 0, this.w, this.h);
+      }.bind(this)
+   
+    this.myCanvasDOMEl.onclick = function () {
+  
+      this.start();
+    }.bind(this);
+  },
+
+  printEndGame: function () {
+    let coverImg = new Image();
+    coverImg.src = "./img/gameCover.jpg";
+    coverImg.onload = function() {
+      this.ctx.drawImage(coverImg, 0, 0, this.w, this.h);
+      }.bind(this)
+   
+    this.myCanvasDOMEl.onclick = function () {
+  
+      this.start();
+    }.bind(this);
   }
 
 };
