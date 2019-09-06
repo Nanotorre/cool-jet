@@ -123,7 +123,24 @@ class Player {
         if(this.bulletsNo > 0) {
           this.shoot();
           this.bulletsNo--;
-          audio.shot1b.play();
+          switch (this.weaponName){
+            case "std":
+                audio.shot1c.play();
+                break;
+            case "redMissile":
+                audio.shot1a.play();
+                break;
+            case "blueMissile":
+                audio.shotRocket.play();
+                audio.shotCannon.play();
+          }
+          // if(this.weaponName="std") audio.shot1c.play();
+          // else if(this.weaponName="redMissile") audio.shot1a.play();
+          // else if(this.weaponName="blueMissile") {audio.shotRocket.play()};
+
+
+          
+          
         }
         
      
@@ -189,6 +206,7 @@ class Player {
   shoot() {
     let bullet;
     switch (this.weaponName) {
+      
       case "redMissile":
           bullet = new RedMissile(
             this.x + this.w,

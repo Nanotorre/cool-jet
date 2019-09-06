@@ -11,8 +11,8 @@ class BirdCyclop {
     this.birdCyclop = new Image();
     this.birdCyclop.src = "./characters/enemies/bird-cyclop.png";
     this.index=6;
-    this.t = 0;
     this.active=true
+    this.angle=0;
 
     this.angle = 0;
   }
@@ -32,11 +32,10 @@ class BirdCyclop {
   // easer = new Easer().using('in-expo');
 
   move(playerx, playery, counter) {
-  //   this.x--
-  //   this.y= this.easer(this.randomInt(0,1))
-    
-
- 
+    this.angle += 0.03;
+    this.x--;
+    this.y = 50 + 400 * Math.sin(this.angle);
+  
    
   };
 

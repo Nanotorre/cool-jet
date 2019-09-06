@@ -11,11 +11,16 @@ class BirdElvis {
     this.birdElvis = new Image();
     this.birdElvis.src = "./characters/enemies/bird-elvis.png";
     this.index=6;
-    this.t = 0;
     this.active=true
+    this.speedAcc= 1;
+    this.speedUp= 2;
+    this.speedUpMoment= 120;
   }
   randomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  randomFloat (minV, maxV) {
+    return Math.random() * (maxV - minV) + minV;   
   }
   draw (counter) {
     this.ctx.drawImage(this.birdElvis,this.index,0,this.birdW,this.birdH,this.x,this.y,this.birdW,this.birdH);
@@ -27,8 +32,11 @@ class BirdElvis {
     }    
   }
 
-  move() {
-    this.x--;
+  move(playerx, playery, counter) {
+    
+    this.x-=1*this.speedAcc;
+    if(counter%this.speedUpMoment===0) this.speedAcc+= this.randomFloat(0.1,this.speedUp);
+
     // this.y = this.y + (Math.cos(this.t*(2*Math.PI))*this.randomInt(0.2,30));
     // this.t += 0.01    
   }

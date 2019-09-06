@@ -13,7 +13,7 @@ class Bullet {
   }
 
   draw() {
-    this.ctx.drawImage(this.bullets, this.frameIndex, 0, this.w, this.h, this.x, this.y, 33*1.5, 20*1.5);
+    this.ctx.drawImage(this.bullets, this.frameIndex, 0, this.w, this.h, this.x, this.y, this.w *1.5, this.h *1.5);
   
       
       if(this.frameIndex==80) {
@@ -69,15 +69,15 @@ class BlueMissile extends Bullet {
     super(x, y, ctx);
     this.active= true;
     this.name = "blueMissile";
-    this.w = 38;
-    this.h = 13;
+    this.w = 38*2;
+    this.h = 13*2;
     this.blueMissile = new Image();
     this.blueMissile.src = "./characters/boy/blue-missile.png";
     this.frameIndex = 0;
   }
   draw(counter) {
       
-    this.ctx.drawImage(this.blueMissile, this.frameIndex, 0, this.w, this.h, this.x, this.y, this.w*2.5,this.h*2.5);
+    this.ctx.drawImage(this.blueMissile, this.frameIndex, 0, this.w, this.h, this.x, this.y, this.w*2.5,this.h*2);
     // }
    
   }

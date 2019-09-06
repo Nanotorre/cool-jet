@@ -10,9 +10,9 @@ let Game = {
   birfCyclopFreq: [240, 480, 120],
   birdElvisFreq: [380, 120, 60],
   birdBatFreq: [480, 550],
-  blueDiamondFreq: 240,
   yellowDiamondFreq: 480,
-  redDiamondFreq: 580,
+  redDiamondFreq: 240,
+  blueDiamondFreq: 580,
 
 
   time: {
@@ -71,16 +71,17 @@ let Game = {
       this.isUpgrade();
       if (this.isCollision()) {
         this.player.active = false;
-        setTimeout(() => {
-          this.gameOver();
-        }, 2000);
+        this.stop();
+        audio.playerImpact.play();
+        
+   
 
 
       }
       if (this.player.y > Game.h) {
-        this.gameOver(Game.player.y);
+        this.stop();
       }
-
+     
       requestAnimationFrame(this.play);
     };
     requestAnimationFrame(this.play);
@@ -117,13 +118,15 @@ let Game = {
   generateBirdCyclop: function () {
     this.birdHPArr.push(
       new BirdCyclop(this.w, this.randomInt(this.h / 2 + 50, this.h / 2 - 50), this.w, this.h, this.ctx)
-    );
+      );
+    audio.bird2SoundArr[this.randomInt(0,2)].play();
   },
 
   generateBirdElvis: function () {
     this.birdHPArr.push(
       new BirdElvis(this.w, this.randomInt(20, this.h - 20), this.w / 2, this.h / 2, this.ctx)
-    );
+      );
+    audio.bird1SoundArr[this.randomInt(0,2)].play()
   },
 
   generateBirdBat: function () {
@@ -189,12 +192,13 @@ let Game = {
 
   stop: function () {
     
-    if (this.time.counter%240===0){
-      this.play = undefined;
-      this.printEndGame();
-      window.cancelAnimationFrame(this.play);
+    cancelAnimationFrame(this.play);
 
-    }
+ 
+
+      this.printEndGame();   
+
+    
 
   },
 
@@ -214,14 +218,18 @@ let Game = {
   },
 
   isCollision: function () {
-    return this.birdHPArr.some(bird => {
-      return (
-        this.player.x + this.player.w >= bird.x &&
-        this.player.x < bird.x + bird.birdW &&
-        this.player.y + this.player.h >= bird.y &&
-        this.player.y <= (bird.y + bird.birdH)
-      )
-    });
+    if(this.player.active){
+      return this.birdHPArr.some(bird => {
+        return (
+          this.player.x + this.player.w >= bird.x &&
+          this.player.x < bird.x + bird.birdW &&
+          this.player.y + this.player.h >= bird.y &&
+          this.player.y <= (bird.y + bird.birdH)
+        )
+      });
+
+    }
+   
   },
 
   isUpgrade: function () {
@@ -233,7 +241,7 @@ let Game = {
         this.player.y + this.player.h >= upgrade.y &&
         this.player.y <= (upgrade.y + upgrade.h)
       ) {
-
+        audio.upgrade.play();
         this.player.weaponName = upgrade.weapon;
         this.player.bulletsNo = upgrade.bulletsNo;
         upgrade.active = false;
@@ -244,22 +252,50 @@ let Game = {
 
   killBirds: function () {
     if (this.player.bullets.length > 0 && this.birdHPArr.length > 0) {
-      this.player.bullets.forEach(bullet => {
-        this.birdHPArr.forEach(bird => {
+      this.player.bullets.forEach((bullet, bulletIdx) => {
+        this.birdHPArr.forEach((bird, birdIdx) => {
+          
           if (bullet.name === "blueMissile") {
 
-            if (bullet.x + bullet.w + 40 >= bird.x && bullet.x - 40 < bird.x + bird.birdW && bullet.y + bullet.h + 40 >= bird.y && bullet.y - 40 <= bird.y + bird.birdH) {
+            if (bullet.x + bullet.w + 10 >= bird.x && bullet.x - 10 < bird.x + bird.birdW && bullet.y + bullet.h + 10 >= bird.y && bullet.y -10 <= bird.y + bird.birdH) {
               bird.active = false; bullet.active = false;
+              this.birdHPArr.forEach(nearBird=> {
+                if(bullet.x + bullet.w + 40 >= nearBird.x && bullet.x - 40 < nearBird.x + nearBird.birdW && bullet.y + bullet.h + 40 >= nearBird.y && bullet.y -40 <= nearBird.y + nearBird.birdH){
+                  nearBird.active = false
+                  if (nearBird.name == "birdElvis") Game.score += 2;
+                  if (nearBird.name == "birdCyclop") Game.score += 4;
+                  if (nearBird.name == "birdBat") Game.score += 10;
+                  audio.bigExplosion.play();
+                  Game.score++;
+                }
+              })
+              // if (bird.name == "birdElvis") Game.score += 2;
+              // if (bird.name == "birdCyclop") Game.score += 4;
+              // if (bird.name == "birdBat") Game.score += 10;
+              // audio.bigExplosion.play();
+              // Game.score++;
+              
+              
+              this.birdDied.push(new ExplosionPlusFx(bird.x, bird.y, this.ctx));
+            }
+            
+          }
+          else if (bullet.name === "redMissile") {
+            
+            
+            if (bullet.x + bullet.w  >= bird.x && bullet.x  < bird.x + bird.birdW && bullet.y + bullet.h  >= bird.y && bullet.y <= bird.y + bird.birdH){
+              bird.active = false; bullet.active = false;
+              this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
               Game.score++;
               if (bird.name == "birdElvis") Game.score += 2;
               if (bird.name == "birdCyclop") Game.score += 4;
               if (bird.name == "birdBat") Game.score += 10;
-              this.birdDied.push(new ExplosionPlusFx(bird.x, bird.y, this.ctx));
+              audio.popSoundArr[0].play();
+           
             }
-
           }
           else {
-
+            
             if (bullet.x + 25 >= bird.x && bullet.x < bird.x + bird.birdW && bullet.y + 12 >= bird.y && bullet.y <= bird.y + bird.birdH) {
               bird.active = false; bullet.active = false;
               this.birdDied.push(new ExplosionFx(bird.x, bird.y, this.ctx, this.elapsed));
@@ -267,16 +303,21 @@ let Game = {
               if (bird.name == "birdElvis") Game.score += 2;
               if (bird.name == "birdCyclop") Game.score += 4;
               if (bird.name == "birdBat") Game.score += 10;
+              audio.popSoundArr[0].play();
+              
             }
 
+          
           }
         })
-      })
-    }
-
+        })
+      }
+  
     this.player.bullets = this.player.bullets.filter(bullet => bullet.active === true);
     this.birdHPArr = this.birdHPArr.filter(bird => bird.active === true);
     this.birdDied = this.birdDied.filter(died => died.active === true);
+    
+    if (this.birdHPArr.filter(bird => bird.name === "birdHp").length > 0) audio.bird4.play();
   },
 
   drawScore: function () {

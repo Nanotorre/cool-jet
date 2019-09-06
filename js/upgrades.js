@@ -1,6 +1,6 @@
 class BlueDiamond {
   constructor(x, y, ctx) {
-    this.weapon = "redMissile";
+    this.weapon = "blueMissile";
     this.bulletsNo = 10;
     this.x = x;
     this.y = y;
@@ -65,7 +65,7 @@ class YellowDiamond{
 
 class RedDiamond {
   constructor(x, y, ctx) {
-    this.weapon = "blueMissile";
+    this.weapon = "redMissile";
     this.bulletsNo = 5;
     this.x = x;
     this.y = y;
