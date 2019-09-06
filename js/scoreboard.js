@@ -77,5 +77,9 @@ let ScoreBoard = {
     this.ctx.fillText("BULLETS", 260, 130);
     this.ctx.font = "40px helvetica";
     this.ctx.fillText(bulletsNo, 260, 100);
+
+    if(Game.player.bulletsNo == 0) {
+      audio.noBullets.play();
+    }
   }
 };

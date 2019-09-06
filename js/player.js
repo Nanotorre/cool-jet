@@ -112,12 +112,18 @@ class Player {
 
       if (e.keyCode == this.keys.LEFT_KEY) this.LEFT = true;
       if (e.keyCode == this.keys.RIGHT_KEY) this.RIGHT = true;
-      if (e.keyCode == this.keys.UP_KEY) this.UP = true;
+      if (e.keyCode == this.keys.UP_KEY) {
+        this.UP = true;
+        audio.jet.play();
+
+      }
+        
       if (e.keyCode == this.keys.SPACE && this.bulletsNo>0) {
         this.SPACE = true;
         if(this.bulletsNo > 0) {
           this.shoot();
           this.bulletsNo--;
+          audio.shot1b.play();
         }
         
      
@@ -127,7 +133,10 @@ class Player {
     document.onkeyup = function (e) {
       if (e.keyCode == this.keys.LEFT_KEY) this.LEFT = false;
       if (e.keyCode == this.keys.RIGHT_KEY) this.RIGHT = false;
-      if (e.keyCode == this.keys.UP_KEY) this.UP = false;
+      if (e.keyCode == this.keys.UP_KEY) {
+        this.UP = false;
+        audio.jet.pause();
+      }
     }.bind(this);
   }
 
