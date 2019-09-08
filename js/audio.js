@@ -1,5 +1,5 @@
 const audio = {
-  backgroundMusic : new Audio("./audio/jetOn.mp3"),
+  backgroundMusic : new Audio("./audio/bkgMusic.mp3"),
   jet : new Audio("./audio/jetOn.mp3"),
   noBullets : new Audio("./audio/noBullets.mp3"),
   shot1a : new Audio("./audio/shot1a.mp3"),

@@ -325,14 +325,18 @@ let Game = {
   }, 
 
   printIntro: function () {
+    
     let coverImg = new Image();
     coverImg.src = "./img/gameCover.jpg";
     coverImg.onload = function() {
       this.ctx.drawImage(coverImg, 0, 0, this.w, this.h);
       }.bind(this)
-   
-    this.myCanvasDOMEl.onclick = function () {
+
   
+
+
+    this.myCanvasDOMEl.onclick = function () {
+      audio.backgroundMusic.play();
       this.start();
     }.bind(this);
   },
